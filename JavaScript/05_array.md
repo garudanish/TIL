@@ -12,10 +12,10 @@ const fruits = ["사과", "오렌지", "배", "딸기"];
 
 ```js
 const fruits = ["사과", "오렌지", "배", "딸기"];
-console.log(fruits[0);    // 사과
-console.log(fruits[1);    // 오렌지
-console.log(fruits[2);    // 배
-console.log(fruits[3);    // 딸기
+console.log(fruits[0]); // 사과
+console.log(fruits[1]); // 오렌지
+console.log(fruits[2]); // 배
+console.log(fruits[3]); // 딸기
 ```
 
 배열 안의 값은 자료형이 모두 같지 않아도 된다. 배열 안에 다른 배열이나 변수를 넣을 수도 있다. 배열 내부에 배열이 들어있는 것을 이차원 배열이라고 한다.
@@ -72,7 +72,7 @@ console.log(target); // (6) ['a', 'b', 'c', 'd', 'e', 'f']
 
 const target2 = ["가", "나", "다", "라", "마"];
 target2.push("바");
-console.log(target2);
+console.log(target2); // (6) ['가', '나', '다', '라', '마', '바']
 ```
 
 배열의 요소 개수는 인덱스보다 항상 1이 크므로, `배열[배열.length] = 추가요소`를 실행하면 마지막 인덱스에 요소를 추가할 수 있다. 혹은 `push` 기능을 사용해 맨 뒤에 요소를 추가할 수 있다.
@@ -122,7 +122,7 @@ console.log(target); // (4) ["가", "다", "라", "마"]
 
 const target2 = [1, 2, 3, 4, 5];
 target2.splice(1);
-console.log(target2); // (1) [1]
+console.log(target2); // [1]
 ```
 
 중간 요소를 제거하려면 `splice` 기능을 사용한다. `splice` 기능의 첫 번째 값은 시작 인덱스이고, 두 번째는 제거할 요소의 개수이다. `target.splice(1, 1)`은 `target` 배열의 인덱스 1부터 1개의 요소를 제거한다는 뜻이다. 만일, 값을 하나만 입력한다면 해당 인덱스를 포함해 마지막 인덱스까지의 모든 요소를 다 제거하겠다는 뜻이다.

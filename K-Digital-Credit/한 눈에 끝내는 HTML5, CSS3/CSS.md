@@ -348,3 +348,76 @@ h1 {
 ### `text-indent`
 
 `text-indent`는 문단의 시작부에 들여쓰기를 지정한다.
+
+## `display`
+
+`display`는 요소가 보여지는 방식을 지정한다. HTML 요소들은 `display` 속성의 기본 값으로 `block`과 `inline`을 가지고 있다.
+
+### `display: block;`
+
+`display: block;`을 가지고 있는 요소는 항상 새로운 줄에서 시작하며, 따로 너비를 지정하지 않아도 `width: 100%`를 기본값으로 갖는다.
+
+`block` 값을 기본으로 가지는 요소들은 옆에 다른 요소들이 올 수 없도록 혼자 한 줄을 차지하며 '막고' 있다. 요소의 크기에 상관없이 `block` 요소들은 한 줄에 함께 배치될 수 없다. `width` 값을 직접 지정하면 자동으로 남은 길이를 `margin`으로 채워 옆으로 다른 요소가 오는 것을 막는다.
+
+`width`, `height`, `margin`, `padding` 등의 프로퍼티를 모두 사용할 수 있다.
+
+`div`, `h1`-`h6`, `p`, `header`, `footer`, `section` 등이 이에 해당하며, 전체 문단과 같이 큰 맥락을 가질 때 사용한다.
+
+### `display: inline;`
+
+`display: inline;`을 가지고 있는 요소는 새로운 줄에서 시작하지 않으며 필요한 만큼의 너비만 가진다. 즉, 요소의 컨텐츠 크기 만큼만 너비를 가진다.
+
+요소의 컨텐츠 크기에 한정된 크기를 가지며, 부모의 너비 안에서 한 줄에 들어갈 수 있는 만큼 일렬로 배치된다.
+
+`width`, `height`, `margin-top`, `margin-bottom` 프로퍼티를 지정할 수 없다.
+
+`span`, `a`, `img`등이 해당하며, 맥락 안에 들어가는 단어, 링크, 이미지 등에 쓰인다.
+
+### `display: inline-block;`
+
+`inline-block`은 `block`과 `inline` 요소의 특징을 모두 가진다. 기본적인 쓰임은 `inline`과 동일하지만 `width`, `height`, `margin-top`, `margin-bottom`을 지정할 수 있다.
+
+### `display: none;`
+
+`display: none;`으로 설정하면 브라우저에 해당 요소가 출력되지 않는다. 이는 주로 자바스크립트를 이용해 요소를 사라지거나 나타나게 할 때 쓰인다.
+
+## `position`
+
+`position`은 요소를 배치하는 방법을 정하는 프로퍼티로, 네 가지 값을 주로 사용한다.
+
+### `position: static;`
+
+보통 요소의 `position` 값은 `static`이 기본이다. `static`에서는 `top`, `right`, `bottom`, `left` 등의 좌표를 사용할 수 없다.
+
+### `position: relative;`
+
+`position: relative;`는 상대 위치다. 기본 위치를 기준으로 자표 프로퍼티를 사용해 위치를 이동한다. 좌표 프로퍼티를 사용하여 이동할 수 있다는 점만 제외하면 `static`과 동일하다.
+
+```css
+.relative {
+  position: relative;
+  background: skyblue;
+  left: 16px;
+  top: 16px;
+}
+```
+
+위 예시는 `relative` 클래스를 가진 요소를 원래 위치(즉, `position: static;`이었을 때의 위치)를 기준으로 왼쪽과 위로부터 16px씩 이동하여 배치한다.
+
+### `position: absolute;`
+
+절대 위치. 부모 요소나 조상 요소 중 `relative`, `absolute`, `fixed`가 선언된 곳을 기준으로 좌표 프로퍼티가 작동한다.
+
+만일 부모나 조상 프로퍼티에 `relative`, `absolute`, `fixed`가 없다면 `<body>`를 기준으로 위치가 지정된다.
+
+### `position: fixed`
+
+`fixed`는 보이는 화면을 기준으로 좌표 프로퍼티를 이용하여 위치를 고정시킨다. 스크롤할 때 따라다니는 메뉴가 `fixed`를 활용한 것이다.
+
+### `z-index`
+
+`z-index`는 수직으로 어떻게 싸이는지 정하는 프로퍼티로, 값은 숫자이다. 숫자가 클 수록 전면에 출력되며, `static`을 제외한 요소에서만 적용된다.
+
+## `float`
+
+float는 뜨다, 띄우다라는 뜻을 가지고 있으며, `float` 프로퍼티는 말 그대로 요소를 어떻게 듸울지 결정한다. `float` 프로퍼티는 요소를 디자인 흐름에서 벗어나게 한 뒤, 사용자가 지정한 방향에 배치하도록 하는 프로퍼티이다.

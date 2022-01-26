@@ -105,6 +105,8 @@ HTML의 부모 - 자식 - 후손 관계에 따라 CSS에서도 자식과 후손�
 - `a:hover`: 링크에 마우스를 올렸을 때
 - `a:active`: 선택된 링크일 때. 클릭 시의 스타일을 적용한다.
 
+<hr>
+
 ## CSS의 기본 단위
 
 CSS에서 프로퍼티가 다양한 만큼 값 또한 매우 다양하다. CSS의 값에 들어갈 수 있는 것 중 대표적인 것으로 크기 단위를 들 수 있다. 글자 사이즈, 높이, 너비 등을 정하는 등 크기와 관련된 값을 조정할 때 크기 단위를 이용해 수치를 조정한다.
@@ -130,6 +132,8 @@ CSS에서 프로퍼티가 다양한 만큼 값 또한 매우 다양하다. CSS�
 `em`은 현재 스타일이 지정되는 요소의 폰트 크기를 기준으로, `rem`은 최상위 요소의 폰트 크기를 기준으로 상대적인 길이를 가진다.
 
 기기에 따라 반응하는 반응형 웹을 만들기 위해 상대 길이인 `em`과 `rem`의 사용을 권장한다. 하지만 `em`은 상속으로 인해 복잡하기 때문에 쓰는 걸 권장하지 않는다.
+
+<hr>
 
 ## 색상
 
@@ -176,6 +180,8 @@ HEX 값는 16진수 6자리 코드로 색상을 표현하는 방식이다. 각 2
 ```
 
 HEX Code와 RGB에는 alpha라는 값이 존재한다. 이는 투명도를 나타낸다. RGB는 `rgba`를 통해 0-1 사이의 숫자로, HEX Code는 6자리에 16진수 2자리를 추가해 alpha 값을 표현할 수 있다.
+
+<hr>
 
 ## 박스 모델
 
@@ -276,6 +282,8 @@ padding과 margin 역시 border처럼 네 방향 따로 혹은 한꺼번에 모�
 
 즉, `width = 24px; padding = 10px;`라면, `content-box`의 경우는 content만 24px에 padding이 10px 추가되어 요소의 가로 길이는 34px가 된다. `border-box`의 경우는 padding과 content를 모두 합친 가로 길이가 24px이 된다.
 
+<hr>
+
 ## 글자 관련 스타일
 
 웹에서 텍스트를 다루는 프로퍼티는 자주 사용하며 그만큼 중요하다.
@@ -349,6 +357,8 @@ h1 {
 
 `text-indent`는 문단의 시작부에 들여쓰기를 지정한다.
 
+<hr>
+
 ## `display`
 
 `display`는 요소가 보여지는 방식을 지정한다. HTML 요소들은 `display` 속성의 기본 값으로 `block`과 `inline`을 가지고 있다.
@@ -380,6 +390,8 @@ h1 {
 ### `display: none;`
 
 `display: none;`으로 설정하면 브라우저에 해당 요소가 출력되지 않는다. 이는 주로 자바스크립트를 이용해 요소를 사라지거나 나타나게 할 때 쓰인다.
+
+<hr>
 
 ## `position`
 
@@ -418,6 +430,100 @@ h1 {
 
 `z-index`는 수직으로 어떻게 싸이는지 정하는 프로퍼티로, 값은 숫자이다. 숫자가 클 수록 전면에 출력되며, `static`을 제외한 요소에서만 적용된다.
 
+<hr>
+
 ## `float`
 
 float는 뜨다, 띄우다라는 뜻을 가지고 있으며, `float` 프로퍼티는 말 그대로 요소를 어떻게 듸울지 결정한다. `float` 프로퍼티는 요소를 디자인 흐름에서 벗어나게 한 뒤, 사용자가 지정한 방향에 배치하도록 하는 프로퍼티이다.
+
+## Flexbox
+
+flexbox는 부모 요소인 flex container와 자식 요소인 flex item으로 구성되어 있는데, 각 요소에는 사용할 수 있는 프로퍼티에 차이가 있다.
+
+- 부모 요소에 사용할 수 있는 프로퍼티
+  - `flex-direction`, `flex-wrap`, `flex-flow`, `justify-content`, `align-items`, `align-content`
+- 자식 요소에 사용할 수 있는 프로퍼티
+  - `flex`, `flex-grow`, `flex-shrink`, `flex-basis`, `order`
+
+flexbox는 기본적으로 가로 혹은 세로로 정해둔 방향을 기준으로 프로퍼티를 정렬, 즉 **줄을 세운다**는 것이 핵심이다.
+
+### `flex-direction`
+
+부모 요소에 `display: flex;`를 추가하면 자식 요소들이 가로배치 된다. 이는 `flex-direction`의 기본값이 `row`, 즉 가로 배치이기 때문이다. 세로로 배치하고자 할 땐 `flex-direction: column;`을 입력한다. `flex-direction`의 값으로 `row`, `column`, `row-reverse`, `column-reverse`가 가능하다.
+
+### `flex-wrap`
+
+flexbox는 일반적으로 자식 요소들을 한 줄에 정렬한다. 자식 요소의 `width`값을 무시하고 줄여서라도 한 줄에 정렬하며, 만일 자식 요소를 더 이상 줄일 수 없다면 부모 요소를 벗어나면서까지 한 줄에 정렬한다.
+
+이는 `flex-wrap`의 기본값이 `nowrap`이기 때문으로, 자식 요소를 여러 줄에 나열하고 싶다면 부모 요소에 `flex-wrap: wrap;` 프로퍼티를 사용하면 된다.
+
+### `flex-flow`
+
+`flex-direction`과 `flex-wrap`은 `flex-flow` 속성으로 한 번에 지정할 수 있다. 값으로 direction과 wrap의 값을 순서대로 써주면 된다.
+
+```css
+.container {
+  display: flex;
+  flex-flow: column wrap;
+  /* 아래와 동일
+    flex-direction: column;
+    flex-wrap: wrap;
+  */
+}
+```
+
+### `justify-content`
+
+`justify-content`는 `flex-direction`으로 정해진 방향에 자식 요소를 어떻게 정렬할 것인지 결정한다.
+
+- `flex-start`, `center`, `flex-end` 값은 각각 direction 축의 시작, 중간, 끝을 기준으로 정렬한다.
+- `space-between`는 시작과 끝에 자식 요소를 하나씩 두고 남은 공간을 동일한 간격으로 나눠 나머지 요소를 배치한다.
+- `space-around`는 시작과 끝을 기준으로 해 자식 요소들을 동일한 간격으로 배치한다.
+
+### `align-items`
+
+`justify-content`와 반대로 `flex-direction`으로 정해진 방향과 수직 방향의 정렬을 결정한다.
+
+- 기본값은 `stretch`로, 별다른 크기가 지정되지 않으면 요소를 늘려서 맞춰준다. `flex-start`, `center`, `flex-end`로 설정하면 높이가 컨텐츠의 크기 만큼으로 바뀐다.
+- `align-items: baseline;`을 설정하면 글꼴의 기준선인 `baseline`을 기준으로 정렬한다. 글자들의 크기가 다르다면 아래의 `baseline`을 기준으로 맞춘다. 단 `flex-direction: column;`일 경우엔 적용되지 않는다.
+
+### `align-content`
+
+자식 요소들이 여러 줄일 경우 `flex-direction` 방향을 기준으로 수직 정렬 방법을 결정한다.
+
+- 여러 줄일 경우에만 해당하므로 `flex-wrap: wrap;`이 반드시 포함되어야 한다.
+- 기본값은 `stretch`이며, `flex-start`, `center`, `flex-end` 속성은 `align-items`와 비슷하다.
+- `space-between`과 `space-around`는 `justify-content`와 유사하다.
+- `align-items`와는 달리 여러 줄이 한몸처럼 움직인다. `align-items`는 각 줄이 따로 나뉘어 정렬된다.
+
+### `flex-grow`
+
+`flex-grow`의 값은 단위 없는 숫자 값(비율)이며, 기본값은 0이다. 자식 요소의 `flex-grow` 값이 0일 때는 부모 요소의 길이가 커져도 원래 크기를 유지한다. 하지만 1 이상일 경우 원래 크기와 상관 없이 부모 요소를 채우기 위해 자식 요소도 커지게 된다. 만일 `flex-grow`의 값이 1 이상인 자식 요소가 여러개라면 값에 따라 부모 요소의 크기를 나눠 가진다.
+
+### `flex-shrink`
+
+`flex-shrink`의 값은 단위 없는 숫자 값(비율)이며, 기본값은 1이다. 값이 0일 경우 부모 요소의 크기가 자식 요소의 크기보다 작아져도 원래 크기를 유지한다. 속성값이 1 이상이면 부모 요소의 크기가 작아질 때 자식 요소의 크기도 맞춰 줄어든다.
+
+### `flex-basis`
+
+자식 요소의 기본 크기를 결정하며, 기본값은 `auto`이다. 단위로는 모든 크기 단위를 사용할 수 있는데, `auto`일 경우 원래 컨텐츠의 크기가 할당된다.
+
+- `flex-basis: auto;`: 컨텐츠의 크기가 `flex-basis`로 할당된다. 박스에서 컨텐츠를 제외하고 남은 크기를 `flex-grow`에 따라 나눠가진다.
+- `flex-basis: 0;`: 자식 요소들의 크기를 `flex-gorw`에 따라 나눠가진다.
+- `flex-basis: 숫자;`: 각 컨텐츠마다 숫자 만큼의 공간을 제외한 크기를 `flex-grow`에 따라 나눠가진다. 가령 `flex-bais: 100px;`이고 정렬하고자 하는 요소가 3개라면, 100px \* 3개 요소 = 300px을 제외한 나머지 공간을 `flex-grow`에 따라 나눠가진다.
+
+### `flex`
+
+`flex`는 `flex-grow`, `flex-shrink`, `flex-basis`를 순서대로 작성하여 한 번에 설정할 수 있는 축약형이다.
+
+```css
+.item {
+  flex-grow: 1;
+  flex-shrink: 0;
+  flex-basis: 400px;
+  /* 위와 아래는 동일한 코드 */
+  flex: 1 0 400px;
+}
+```
+
+`flex` 속성의 값으로 숫자만 들어간다면(`flex: 1;`, `flex: 0;`), `flex-grow`와 같다고 볼 수 있다. 이때 `flex-shrink`와 `flex-basis`는 각각의 기본값이 아닌 `0`으로 할당된다.

@@ -1,0 +1,28 @@
+body {
+  background-color: orange;
+}
+div {
+  background-color: white;
+  width: 400px;
+  padding: 30px 50px;
+
+  margin: 30px auto 50px;
+
+  border-top: 50px solid orange;
+  border-bottom: 50px solid orange;
+  border-radius: 50px;
+}
+
+h1 {
+  color: orange;
+  border-bottom: 5px solid orange;
+  width: 110px;
+  margin: 0 auto;
+}
+
+ul {
+  width: 100px;
+  margin: 30px auto;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}

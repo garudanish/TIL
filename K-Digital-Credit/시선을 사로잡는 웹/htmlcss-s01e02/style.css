@@ -1,0 +1,84 @@
+h1,
+h2,
+ul,
+p {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+body {
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-image: url(./images/halloween-background.gif);
+}
+
+.wrapper {
+  background-color: #ddd;
+  width: 800px;
+  margin: 50px auto;
+}
+
+.header {
+  background-image: url(./images/halloween-header-bg.png);
+  background-size: cover;
+  background-position: center;
+  color: white;
+  height: 400px;
+  text-align: center;
+  padding-top: 50px;
+}
+
+.header .profile {
+  margin-top: 10px;
+}
+
+.header h1 {
+  color: violet;
+  margin: 10px 0;
+}
+
+.header p {
+  background-color: black;
+  color: #666;
+  width: 400px;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 0 auto;
+}
+
+.section {
+  background-image: url(./images/icon-information.png);
+  background-repeat: no-repeat;
+  background-position: right 30px center;
+  background-color: #fff;
+  margin: 20px;
+  padding: 20px;
+}
+
+.section h2 {
+  color: orangered;
+  margin-bottom: 20px;
+}
+
+.section li {
+  padding: 6px 10px 4px;
+}
+
+.section li:hover {
+  color: orangered;
+  border-color: orangered;
+}
+
+.footer {
+  background-color: #111;
+  color: white;
+  padding: 10px 0;
+  text-align: center;
+  color: violet;
+  letter-spacing: 5px;
+}

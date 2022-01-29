@@ -74,6 +74,10 @@ body {
   border-color: orangered;
 }
 
+.skills {
+  background-image: url(./images/icon-skills.png);
+}
+
 .footer {
   background-color: #111;
   color: white;

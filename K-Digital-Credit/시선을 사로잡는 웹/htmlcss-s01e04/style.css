@@ -1,0 +1,153 @@
+/* CSS Reset */
+body,
+ul,
+p,
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+body {
+  background-image: url(./images/bg.png);
+  background-attachment: fixed;
+  background-position: center;
+}
+
+.wrapper {
+  background-image: url(./images/rope.png);
+  background-position: center;
+  width: 800px;
+  margin: 0 auto 100px;
+}
+
+.header {
+  text-align: center;
+}
+
+.logo {
+  background-image: url(./images/logo.png);
+  width: 450px;
+  height: 140px;
+  display: inline-block;
+
+  margin: 20px 0;
+
+  /* Image Replace */
+  text-indent: -9999px;
+}
+
+.menu {
+  width: 400px;
+  margin: 50px auto;
+  color: #666;
+}
+
+.menu li {
+  margin-bottom: 10px;
+}
+
+.menu li a {
+  display: block;
+  padding: 20px 0;
+  border: 2px solid;
+  border-radius: 4px;
+}
+
+.menu li a:hover {
+  color: orange;
+}
+
+.section {
+  background-image: url(./images/wood.png);
+  padding: 30px;
+  margin: 50px 0;
+  border: 10px solid #883a1d;
+  border-radius: 10px;
+  box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.6),
+    inset 0 0 10px rgba(0, 0, 0, 0.5);
+  color: antiquewhite;
+}
+
+.section h1 {
+  font-family: "Merienda One", cursive;
+  margin-bottom: 20px;
+  font-size: 80px;
+  line-height: 174px;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.section:nth-child(even) h1 {
+  background-position: left center;
+  text-align: right;
+}
+
+.section h1.animal01 {
+  background-image: url(./images/animal01.png);
+}
+
+.section h1.animal02 {
+  background-image: url(./images/animal02.png);
+}
+
+.section h1.animal03 {
+  background-image: url(./images/animal03.png);
+}
+
+.section h1.animal04 {
+  background-image: url(./images/animal04.png);
+}
+
+.section h1.animal05 {
+  background-image: url(./images/animal05.png);
+}
+
+.section h1.animal06 {
+  background-image: url(./images/animal06.png);
+}
+
+.section h1.animal07 {
+  background-image: url(./images/animal07.png);
+}
+
+.section p {
+  line-height: 1.6;
+}
+
+.section p strong {
+  background-color: #883a1d;
+  padding: 0 20px;
+  border-radius: 10px;
+  color: yellow;
+}
+
+.footer {
+  background-color: #7d410d;
+  color: antiquewhite;
+  text-align: center;
+  border-bottom: 10px solid rgba(0, 0, 0, 0.4);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 30px 10px rgba(0, 0, 0, 0.6),
+    inset 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.footer::before {
+  content: "";
+  display: block;
+  height: 50px;
+  background-image: url(./images/ground.png);
+  background-repeat: repeat-x;
+}
+.footer p {
+  padding: 20px 0;
+}

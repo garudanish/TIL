@@ -61,6 +61,9 @@
     - [`flex-shrink`](#flex-shrink)
     - [`flex-basis`](#flex-basis)
     - [`flex`](#flex)
+  - [Grid](#grid)
+    - [Grid 요소들의 명칭](#grid-요소들의-명칭)
+    - [Grid Container의 속성](#grid-container의-속성)
 
 # CSS
 
@@ -591,3 +594,128 @@ flexbox는 일반적으로 자식 요소들을 한 줄에 정렬한다. 자식 �
 ```
 
 `flex` 속성의 값으로 숫자만 들어간다면(`flex: 1;`, `flex: 0;`), `flex-grow`와 같다고 볼 수 있다. 이때 `flex-shrink`와 `flex-basis`는 각각의 기본값이 아닌 `0`으로 할당된다.
+
+## Grid
+
+flexbox가 매우 유용하긴 하지만, 좀 더 고차원적으로 레이아웃을 배치하고 싶다면 grid에 대해 공부할 필요가 있다. Flexbox가 줄에 대한 정렬이었다면 Grid는 격자, 즉 행렬을 통해 요소들을 좀 더 정교하고 복잡하게 정렬 및 배치할 수 있는 레이아웃 시스템이다.
+
+### Grid 요소들의 명칭
+
+- Grid Lines: "선". 격자를 이루는 선의 집합. Grid를 이루는 행과 열의 선들을 모두 Grid Lines라고 한다.
+  - 행은 Grid Row, 열은 Grid Column이라고 한다.
+- Grid Track: "줄". 평행한 Grid Line 두 줄 사이의 공간.
+- Grid Area: "면". Grid Line 네 줄로 둘러싸인 공간.
+- Grid Gap: 행 여러 개 혹은 열 여러 개 사이의 간격. Grid Line의 두께.
+
+Grid 또한 Flexbox와 같이 Grid Container와 Grid Items로 구성되어 있어며, 각각 사용되는 프로퍼티가 다르다.
+
+### Grid Container의 속성
+
+- `display: grid | inline-grid`: 해당 요소를 Grid Container로 사용하겠다고 선언.
+  - `displacy: grid`는 Grid Container가 `block` 요소의 특성을, `display:inline-grid`는 `inline` 요소의 특성을 가진다.
+- `grid-template-rows | grid-template-columns`: Grid Track의 크기를 정의한다.
+  - ```CSS
+    .main {
+    display: grid;
+    grid-template-rows: 40px 40px 40px;
+    grid-template-columns: 40px 80px 40px;
+    }
+    ```
+  - 행에 해당하는 Grid Track의 크기는 40px로 3칸씩, 열에 해당하는 Grid Track의 크기는 40px 80px 40px로 3칸 형성되어 총 9칸의 Grid 영역이 잡히게 된다.
+  - `grid-templates-rows: repeat(10, 40px)`의 형식으로 같은 값을 여러 번 반복할 수 있다.
+  - `fr` 단위를 사용하여 영역을 비율로 나눌 수 있다. 가령 `grid-template-columns: 1fr 3fr 1fr;`라면, 열을 1:3:1 비율로 나눈다.
+- `grid-template-areas`: Grid Area의 이름을 할당한다.
+  - `""`로 한 행을 표현하며, 여러 행을 띄어쓰기로 구분한다.
+  - ```CSS
+    grid-template-areas: "1행 1행 1행" "2행 2행 2행" "3행 3행 3행"
+    /* 둘 다 가능 🟢 */
+    grid-template-areas:
+    "1행 1행 1행"
+    "2행 2행 2행"
+    "3행 3행 3행"
+    ```
+  - Grid Area는 직사각형의 모양이어야만 레이아웃이 무너지지 않는다.
+  - 만약 공간을 비우고 싶다면 `.` 또는 `none`으로 비울 수 있다.
+  - ```CSS
+    grid-template-areas:
+    "hd hd hd"
+    "nav content ad"
+    ". ft none";
+    ```
+  - `grid-template-areas`의 값은 Grid 전체를 나타내야 한다. 즉, 전체 Grid Area 수와 동일해야 한다.
+- `grid-template`: `grid-template-xxx`에 해당하는 모든 프로퍼티의 단축 프로퍼티.
+  - ```css
+    .main {
+      display: grid;
+      grid-template:
+        "hd hd hd" 128px
+        "nav content ad" auto
+        "ft ft ft" 240px
+        / 1fr 3fr 1fr;
+    }
+    ```
+  - `grid-template-areas`를 지정하지 않고 `grid-template-rows`와 `grid-template-columns`를 한 번에 지정할 수 있다.
+    - ```css
+      .main {
+        display: grid;
+        grid-template: 128px auto 240px / 1fr 3fr 1fr;
+      }
+      ```
+- `grid-row-gap | grid-column-gap`: 각 행과 열 사이의 간격을 지정한다.
+- `grid-gap`: `grid-row-gap | grid-column-gap`의 단축 프로퍼티. `grid-row-gap`이 처음 값으로, `grid-column-gap`을 두번째 값으로 사용한다. 하나만 작성하면 둘 다 동일한 값으로 지정된다.
+  - ```css
+    .main {
+      grid-row-gap: 16px;
+      grid-column-gap: 16px;
+      /* 위와 아래의 코드는 동일합니다. */
+      grid-gap: 16px 16px;
+      /* 모두 동일한 코드입니다. */
+      grid-gap: 16px;
+    }
+    ```
+- `grid-auto-rows | grid-aouto-columns`: 크기가 지정되지 않은 Grid Track의 크기를 지정한다.
+  - ```CSS
+    .photos {
+      display: grid;
+      grid-gap: 8px;
+      grid-template-columns: repeat(3, 1fr);
+      grid-auto-rows: minmax(200px, auto);
+    }
+    ```
+    - `minmax(최솟값, 최댓값)` 함수는 크기의 최대, 최소를 설정한다. 위 예시에선 최댓값을 `auto`로 설정해 내용에 따라 자동으로 크기가 늘어난다.
+    - `grid-auto` 속성을 사용하지 않으면 지정된 Grid Track의 수를 넘어갈 경우 크기가 지정되지 않는다. 사용하면 크기를 지정하지 않은 줄까지 추가되더라도 자동으로 크기를 지정할 수 있다.
+- `grid-auto-flow`: Grid가 자동으로 배치되는 방향을 결정한다.
+  - `row`, `column`, `row dense`, `column dense` 값을 사용할 수 있다. `dense` 속성을 사용할 경우 다음 줄로 넘어갈 요소들을 빈 칸으로 배치해 먼저 채우는 방식으로 적용된다.
+- `grid`: `grid-template`와 `grid-auto`의 단축형 프로퍼티다.
+  1. `grid-template`의 값을 그대로 가져다 쓸 수 있다.
+  2. `grid: auto-flow <grid-auto-rows> / <grid-template-columns>`
+     - `auto-flow`는 `/` 앞에서 선언될 경우 `grid-auto-flow: row`와 같고, 뒤에서 선언될 경우 `grid-auto-flow: column`과 같다.
+     - `auto-flow`가 없다면 1번의 `grid-template`의 형식으로 인식된다.
+  3. `grid: <grid-template-rows> / auto-flow <grid-auto-columns>`
+     - `auto-flow`는 `/` 앞에서 선언될 경우 `grid-auto-flow: row`와 같고, 뒤에서 선언될 경우 `grid-auto-flow: column`과 같다.
+- 정렬
+
+  - `align | justify | place`: `align`은 수직, `justify`는 수평, `place`는 둘의 축약형이다.
+  - `content | items`: `content`는 Grid Container를 기준으로 Grid Cell을 정렬하고, `items`는 Grid Cell 혹은 Grid Area를 기준으로 Grid Item을 정렬한다.
+    - `space-around`, `space-between`, `space-evenly` 값은 `content`에서만 사용 가능하다.
+  - `align-content: center;`는 1) Grid Container 기준 2) 수직 방향으로 Grid Cell들을 3) 중앙 정렬한다.
+  - `justify-items: center;`는 1) Grid Cell 혹은 Grid Area 기준 3) 수평 방향으로 Grid Item을 3) 중앙 정렬한다.
+  - `place-xxx`는 `xxx-content`와 `xxx-items`의 축약 속성이다. 항상 `align` 값을 먼저 쓰고 그 다음 `justify` 값을 쓴다.
+
+    - ```CSS
+      .container {
+        place-content: space-around space-evenly;
+        place-items: center stretch;
+      }
+
+      /* 동일하다 */
+
+      .container {
+        align-content: space-around;
+        justify-content: space-evenly;
+        align-items: center;
+        justify-items: stretch;
+      }
+      ```
+
+    - 만일 값을 하나만 할당하면 `align`과 `justify`에 동일한 값이 부여된다.

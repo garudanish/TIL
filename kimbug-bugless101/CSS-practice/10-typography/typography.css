@@ -1,0 +1,95 @@
+/* ▼ WHERE YOUR CODE BEGINS */
+
+body {
+  font-family: "Noto Sans KR", sans-serif;
+  letter-spacing: -0.015em;
+}
+
+/* Font Size */
+
+.fs-tiny {
+  font-size: 12px;
+  line-height: 1.333333333333333;
+}
+
+.fs-small {
+  font-size: 14px;
+  line-height: 1.428571428571429;
+}
+
+.fs-base {
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.fs-medium {
+  font-size: 18px;
+  line-height: 1.555555555555556;
+}
+
+.fs-large {
+  font-size: 20px;
+  line-height: 1.6;
+}
+
+.fs-h2 {
+  font-size: 28px;
+  line-height: 1.428571428571429;
+}
+
+.fs-h1 {
+  font-size: 34px;
+  line-height: 1.411764705882353;
+}
+
+/* Font Weight */
+
+.fw-light {
+  font-weight: 300;
+}
+
+.fw-regular {
+  font-weight: 400;
+}
+
+.fw-medium {
+  font-weight: 500;
+}
+
+.fw-bold {
+  font-weight: 700;
+}
+
+/* Colors */
+
+.text-dark {
+  color: #151b26;
+}
+
+.text-primary {
+  color: #3c4858;
+}
+
+.text-secondary {
+  color: #8492a6;
+}
+
+.text-tertiary {
+  color: #c0ccda;
+}
+
+.text-white {
+  color: #ffffff;
+}
+
+.text-success {
+  color: #13ce66;
+}
+
+.text-error {
+  color: #ff5216;
+}
+
+.text-info {
+  color: #009eeb;
+}

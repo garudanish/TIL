@@ -64,6 +64,7 @@
   - [Grid](#grid)
     - [Grid 요소들의 명칭](#grid-요소들의-명칭)
     - [Grid Container의 속성](#grid-container의-속성)
+    - [Grid Item의 속성](#grid-item의-속성)
 
 # CSS
 
@@ -719,3 +720,18 @@ Grid 또한 Flexbox와 같이 Grid Container와 Grid Items로 구성되어 있�
       ```
 
     - 만일 값을 하나만 할당하면 `align`과 `justify`에 동일한 값이 부여된다.
+
+### Grid Item의 속성
+
+- `grid-row`, `grid-column`
+  - Grid Line은 왼쪽 위부터 차례로 1, 2, 3...의 양수 인덱스를, 오른쪽 아래부터 차례로 -1, -2, -3...의 음수 인덱스를 가진다.
+  - `grid-row`: `grid-row-start`와 `grid-row-end`의 축약형이다.
+  - `grid-row-start`는 해당 Grid item의 행 방향으로의 시작 위치를, `grid-row-end`는 끝나는 위치를 지정한다. `grid-column`는 방향이 열 방향인 것을 제외하면 동일하다.
+  - `grid-row: <grid-row-start> / <grid-row-end>`의 형태로 사용한다.
+  - `grid-row: 1`은 `grid-row-start: 1; grid-row-end: auto;`값의 축약형이다.
+  - `grid-row: 2 / span 2;`와 같이 `span 숫자값` 키워드를 사용하면 `start`를 기준으로 `숫자 값`만큼 차지한다는 뜻이다.
+- `grid-area`: `grid-template-areas`의 이름을 정하는 용도로도 사용하지만, `grid-row`와 `grid-column`의 단축 속성 역할을 하기도 한다.
+  - `grid-area: <grid-row-start> / <grid-column-start> / <grid-row-end> / <grid-column-end>`의 형태로 사용한다.
+  - 값을 생략할 경우 `auto`의 값을 가진다.
+- `align-self | justify-self`: Grid Item을 정렬하는데 사용한다. `align`은 수직, `justify`는 수평 정렬이다.
+- `place-self`: `align-self`와 `justify-self`의 단축 프로퍼티. `align-self`의 값을 먼저 쓰며 띄어쓰기로 구분한다.

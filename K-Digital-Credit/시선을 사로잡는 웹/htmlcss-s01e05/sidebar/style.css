@@ -1,0 +1,18 @@
+body {
+    background-image: url(images/background.gif);
+    color: #999;
+} 
+
+.wrapper {
+    width: 700px;
+    margin: 50px auto;
+    background-color: #fff;
+}
+
+.sidebar {
+
+}
+
+.contents {
+    
+}

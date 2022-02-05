@@ -1,0 +1,204 @@
+/* Reset CSS */
+
+body,
+ul,
+li,
+h1,
+h2,
+p {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Layouts */
+
+.wrapper {
+  width: 1200px;
+  margin: 0 auto;
+}
+
+/* Common CSS */
+
+.clearfix::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+.button {
+  display: inline-block;
+  padding: 0.7em 1.2em;
+  line-height: 1;
+  background-color: purple;
+  color: violet;
+}
+
+/* Components CSS */
+
+body {
+  background-color: #111;
+  color: #999;
+  font-size: 14px;
+}
+
+.logo {
+  text-indent: -9999px;
+  overflow: hidden;
+  float: left;
+  width: 100px;
+  height: 80px;
+  background-image: url(./images/logo.png);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.menu {
+  float: left;
+}
+
+.menu li {
+  float: left;
+}
+
+.menu li a {
+  display: block;
+  position: relative;
+  height: 80px;
+  padding: 0 20px;
+  line-height: 80px;
+}
+
+.menu li a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 3px;
+  margin: 0 100px;
+  background-color: currentColor;
+  transition: margin 500ms ease-in-out;
+}
+
+.menu li a:hover {
+  color: #fff;
+}
+
+.menu li a:hover::before {
+  margin: 0;
+}
+
+.cover {
+  position: relative;
+  height: 300px;
+  background-image: url(./images/cover.png);
+  border-radius: 5px;
+}
+
+.cover-car {
+  position: absolute;
+  top: -60px;
+  right: 0;
+}
+
+.cover-contents {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  padding: 20px;
+  border-radius: 3px;
+  margin: 20px;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+
+.cover-contents h1 {
+  font-family: "Alatsi", sans-serif;
+  line-height: 1.1;
+}
+
+.cover-contents h1 strong {
+  display: block;
+  color: orangered;
+}
+
+.cover-contents p {
+  margin: 10px 0;
+}
+
+.price {
+  font-family: "Montserrat", sans-serif;
+  font-size: 50px;
+  font-weight: 700;
+  color: orange;
+}
+
+.price::before {
+  content: "$";
+}
+
+.price::after {
+  content: "/mo";
+  font-size: 0.5em;
+  color: #999;
+}
+
+.description {
+  width: 300px;
+}
+
+.service {
+  padding: 30px 0;
+}
+
+.service-item {
+  float: left;
+  width: 33.3333333333%;
+}
+
+.service-item-cover {
+  float: left;
+}
+
+.service-item-contents {
+  overflow: hidden;
+  padding: 5px 10px;
+}
+
+.service-item-contents h2 {
+  margin-bottom: 20px;
+  color: #ddd;
+}
+
+.footer {
+  border-top: 1px solid #666;
+  padding: 20px 0;
+}
+
+.footer-logo {
+  position: relative;
+  padding-right: 0.3em;
+  margin-right: 0.3em;
+}
+
+.footer-logo::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0.1em;
+  width: 3px;
+  border-radius: 3px;
+  margin-bottom: 0.1em;
+  opacity: 0.3;
+  background-color: currentColor;
+}

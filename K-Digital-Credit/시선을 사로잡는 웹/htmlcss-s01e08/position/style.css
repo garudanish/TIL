@@ -1,0 +1,23 @@
+body:before,
+.grand-father:before,
+.father:before {
+    float: right;
+    color: #000;
+    margin: 10px;
+    font-size: 14px;
+}
+
+body:before {
+    content: '전체 창';
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.grand-father:before {
+    content: '할아부지';
+}
+
+.father:before {
+    content: '아부지';
+}

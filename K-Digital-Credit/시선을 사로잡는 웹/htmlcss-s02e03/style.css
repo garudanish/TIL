@@ -1,0 +1,367 @@
+/* CSS Reset */
+body,
+p,
+h1,
+h2,
+h3,
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+li {
+  list-style-type: none;
+}
+
+/* Typograph */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 400;
+  font-size: 100%;
+}
+
+body {
+  font-family: sans-serif;
+}
+
+/* Util */
+.mb_5 {
+  margin-bottom: 5px;
+}
+
+/* Layouts */
+.l_wrapper {
+  max-width: 960px;
+  padding: 0 20px;
+  margin: 0 auto;
+}
+
+.l_sidebar {
+  float: right;
+  margin-left: 20px;
+  width: 200px;
+}
+
+.l_main {
+  overflow: hidden;
+}
+
+.l_row {
+  margin: 0 -10px;
+}
+
+.l_col {
+  box-sizing: border-box;
+  float: left;
+  width: 20%;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+/* Commons */
+.clearfix::before,
+.clearfix::after {
+  content: " ";
+  clear: both;
+  display: table;
+}
+
+.star {
+  display: inline-block;
+}
+
+.star,
+.star::before {
+  content: " ";
+  width: 150px;
+  height: 30px;
+  background-image: url(images/star-sprite.png);
+  overflow: hidden;
+}
+
+.star::before {
+  width: 0;
+  display: block;
+  background-position: left bottom;
+}
+
+.star_1::before {
+  width: 20%;
+}
+.star_2::before {
+  width: 40%;
+}
+.star_3::before {
+  width: 60%;
+}
+.star_4::before {
+  width: 80%;
+}
+.star_5::before {
+  width: 100%;
+}
+
+/* Buttons */
+.button {
+  background-color: #333;
+  color: white;
+  padding: 0.5em 1em;
+  display: inline-block;
+}
+
+.button_block {
+  display: block;
+  text-align: center;
+}
+
+.button_important {
+  background-color: orangered;
+}
+
+/* Components */
+body {
+  background-image: url(images/bg.png);
+  color: #999;
+}
+
+.header {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.contents {
+  padding: 40px 0;
+}
+
+.checkout {
+  background-color: #222;
+}
+
+.checkout-section {
+  margin: 20px;
+}
+
+.video {
+  background-color: dodgerblue;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.video-iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.price {
+  font-size: 25px;
+  font-weight: bold;
+  color: orangered;
+}
+
+.price-discount {
+  font-weight: normal;
+  color: #999;
+  font-size: 0.5em;
+  position: relative;
+}
+
+.price-discount:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  bottom: 0.6em;
+  opacity: 0.3;
+  background-color: white;
+}
+
+.course-cover {
+  position: relative;
+  padding: 30px;
+  background-image: url(images/cover.png);
+  background-size: cover;
+  background-position: center center;
+}
+
+.course-cover::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: -moz-linear-gradient(
+    top,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.65) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 );
+}
+
+.course-section {
+  margin: 20px 0;
+}
+
+.course-creator,
+.course-title {
+  position: relative;
+  z-index: 10;
+}
+
+.course-creator {
+  float: right;
+  margin-left: 10px;
+  width: 100px;
+  text-align: right;
+}
+
+.course-creator-logo {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.course-creator-contents {
+  padding: 5px;
+}
+
+.course-creator-contents strong {
+  display: block;
+}
+
+.course-creator .course-title {
+  overflow: hidden;
+}
+
+.course-title h1 {
+  margin-bottom: 20px;
+  font-family: "Bebas Neue", cursive;
+  font-size: 50px;
+  line-height: 1.1;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: white;
+}
+
+.course-title p {
+  margin-bottom: 20px;
+}
+
+.course-section h2 {
+  font-size: 30px;
+  color: #999;
+  border-bottom: 2px solid;
+  margin-bottom: 20px;
+}
+
+.curriculum-item {
+  margin-bottom: 10px;
+  background-color: #666;
+}
+
+.curriculum-item:last-child {
+  margin-bottom: 0;
+}
+
+.curriculum-item h3 {
+  margin: 10px 20px;
+}
+
+.curriculum-item-list {
+  padding: 20px 0;
+  margin: 5px;
+  background-color: #111;
+}
+
+.curriculum-link {
+  display: block;
+  padding: 10px;
+  margin: 5px 20px;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+.curriculum-link::before {
+  content: "";
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent transparent currentColor;
+  transform: translateY(-2px);
+}
+
+.curriculum-link:hover {
+  color: white;
+}
+
+.curriculum-link span {
+  float: right;
+  font-size: 10px;
+}
+
+/* Item */
+
+.item {
+  background-color: blue;
+}
+
+.item-cover {
+  display: block;
+  width: 100%;
+}
+
+.footer {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Mediaqueries */
+@media (max-width: 768px) {
+  .l_sidebar {
+    float: none;
+    width: auto;
+    margin-left: 0;
+  }
+
+  .l_col {
+    width: 33.333333333%;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-cover {
+    text-align: center;
+  }
+
+  .course-creator {
+    float: none;
+    width: auto;
+    margin: 0;
+    text-align: center;
+  }
+
+  .curriculum-link span {
+    display: none;
+  }
+}

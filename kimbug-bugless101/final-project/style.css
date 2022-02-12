@@ -51,6 +51,7 @@ p {
   align-items: center;
   width: 140px;
   height: 48px;
+  border: none;
   border-radius: 2px;
   font-size: 15px;
   line-height: 1.6em;
@@ -197,6 +198,113 @@ p {
   transition: color 500ms ease-in-out;
 }
 
+/* Curriculum */
+.curriculum .row:first-child {
+  margin-bottom: 48px;
+}
+
+.curriculum .row:last-child .col-12:first-child {
+  margin-bottom: 40px;
+}
+
+.curriculum .section-category {
+  color: #0189d1;
+}
+
+.curriculum .section-desc {
+  margin-bottom: 32px;
+}
+
+.curriculum-image {
+  display: none;
+}
+
+.curriculum-detail-desc {
+  font-size: 15px;
+  line-height: 1.466666666666667;
+  letter-spacing: -0.01em;
+  color: #2b292d;
+}
+
+/* Subscription */
+.subscription {
+  padding: 40px 0;
+  text-align: center;
+  background-color: #f2f8fa;
+}
+
+.subscription-image {
+  padding: 25px 0;
+  margin-bottom: 16px;
+}
+
+.subscription-image img {
+  display: block;
+  width: auto;
+  height: 190px;
+  margin: 0 auto;
+}
+
+.subscription-title {
+  font-size: 32px;
+  line-height: 1;
+  letter-spacing: -0.05em;
+  margin-bottom: 16px;
+}
+
+.subscription-desc {
+  margin-bottom: 24px;
+}
+
+.subscription .input-group {
+  margin-bottom: 8px;
+}
+
+.subscription .input-group input {
+  width: 100%;
+  height: 48px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  background-color: #fff;
+}
+
+.subscription .input-group .fill-button {
+  width: 100%;
+}
+
+.subscription-form .form-notice {
+  font-size: 13px;
+  line-height: 1.538461538461538;
+  letter-spacing: 0;
+  color: #7b7b7e;
+}
+
+.subscription-form .form-notice a {
+  color: #3040c4;
+  text-decoration: underline;
+}
+
+/* Footer */
+.footer {
+  padding: 24px 0;
+}
+
+.footer-link {
+  margin-bottom: 8px;
+}
+
+.footer-link:last-child {
+  margin-bottom: 0;
+}
+
+.footer-link a {
+  font-size: 14px;
+  line-height: 1.714285714285714;
+  color: #807f81;
+}
+
 /* >= 768px (Desktop) */
 @media screen and (min-width: 768px) {
   /* Reset CSS */
@@ -278,6 +386,97 @@ p {
   .program-card strong {
     font-size: 20px;
     line-height: 1.2;
+  }
+
+  /* Curriculum */
+  .curriculum .row:first-child {
+    margin-bottom: 24px;
+  }
+
+  .curriculum .row:last-child .col-12:first-child {
+    margin-bottom: 0;
+  }
+
+  .curriculum .section-desc {
+    margin-bottom: 72px;
+  }
+
+  .curriculum-image {
+    display: block;
+  }
+
+  .curriculum-image img {
+    display: block;
+    max-width: 425px;
+    width: 100%;
+    height: auto;
+  }
+
+  .curriculum-detail-desc {
+    font-size: 18px;
+    line-height: 1.444444444444444;
+  }
+
+  /* Subscription */
+  .subscription {
+    padding: 80px 0;
+    text-align: left;
+  }
+
+  .subscription-image {
+    padding: 8px 0;
+  }
+
+  .subscription-image img {
+    height: 285px;
+    margin-left: 0;
+  }
+
+  .subscription-title {
+    font-size: 40px;
+  }
+
+  .input-group {
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+  }
+
+  .subscription-form .input-group input {
+    height: 56px;
+    padding: 16px;
+    margin-right: 8px;
+    margin-bottom: 0;
+    font-size: 18px;
+    line-height: 1.333333333333333;
+  }
+
+  .subscription-form .input-group .fill-button {
+    flex-shrink: 0;
+    width: 160px;
+  }
+
+  .subscription-form .form-notice {
+    font-size: 14px;
+    line-height: 1.428571428571429;
+  }
+
+  /* Footer */
+  .footer {
+    padding: 16px 0;
+  }
+
+  .footer-links {
+    display: flex;
+  }
+
+  .footer-link {
+    margin-right: 16px;
+    margin-bottom: 0;
+  }
+
+  .footer-link:last-child {
+    margin-right: 0;
   }
 }
 

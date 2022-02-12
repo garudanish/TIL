@@ -1,0 +1,598 @@
+/* CSS Reset */
+body,
+p,
+h1,
+h2,
+h3,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+img {
+  max-width: 100%;
+  vertical-align: top;
+}
+
+/* Typograph */
+html {
+  font-family: sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: normal;
+  font-size: 100%;
+}
+
+/* Util */
+.mb_5 {
+  margin-bottom: 5px;
+}
+
+/* Layouts */
+.l_wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.l_sidebar {
+  float: right;
+  margin-left: 20px;
+  width: 200px;
+}
+
+.l_main {
+  overflow: hidden;
+}
+
+.l_row {
+  margin: 0 -10px -20px -10px;
+}
+
+.l_col {
+  box-sizing: border-box;
+  float: left;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.l_col_12_12 {
+  width: 100%;
+}
+.l_col_11_12 {
+  width: 91.66666667%;
+}
+.l_col_10_12 {
+  width: 83.33333333%;
+}
+.l_col_9_12 {
+  width: 75%;
+}
+.l_col_8_12 {
+  width: 66.66666667%;
+}
+.l_col_7_12 {
+  width: 58.33333333%;
+}
+.l_col_6_12 {
+  width: 50%;
+}
+.l_col_5_12 {
+  width: 41.66666667%;
+}
+.l_col_4_12 {
+  width: 33.33333333%;
+}
+.l_col_3_12 {
+  width: 25%;
+}
+.l_col_2_12 {
+  width: 16.66666667%;
+}
+.l_col_1_12 {
+  width: 8.33333333%;
+}
+
+/* Commons */
+/* 부모와 자식간 마진겹침현상을 해결하기 위한 팁 */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix::after {
+  clear: both;
+}
+
+.star {
+  display: inline-block;
+}
+
+.star,
+.star:before {
+  content: " ";
+  width: 150px;
+  height: 30px;
+  background-image: url(images/star-sprite.png);
+  overflow: hidden;
+}
+
+.star:before {
+  width: 0;
+  display: block;
+  background-position: left bottom;
+}
+
+.star_1:before {
+  width: 20%;
+}
+.star_2:before {
+  width: 40%;
+}
+.star_3:before {
+  width: 60%;
+}
+.star_4:before {
+  width: 80%;
+}
+.star_5:before {
+  width: 100%;
+}
+
+/* Buttons */
+.button {
+  background-color: #333;
+  color: white;
+  padding: 0.5em 1em;
+  display: inline-block;
+}
+
+.button_block {
+  display: block;
+  text-align: center;
+}
+
+.button_important {
+  background-color: orangered;
+}
+
+/* Components */
+body {
+  background-image: url(images/bg.png);
+  color: #999;
+}
+
+.header {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.header-logo {
+  display: block;
+  float: left;
+}
+
+.header-menu {
+  float: left;
+}
+
+.header-menu-right {
+  float: right;
+}
+
+.header-menu li {
+  float: left;
+}
+
+.header-menu li a {
+  display: block;
+  height: 50px;
+  padding: 0 10px;
+  line-height: 50px;
+}
+
+.header-menu li a:hover {
+  color: white;
+}
+
+.contents {
+  padding: 40px 0;
+}
+
+.checkout {
+  background-color: #222;
+}
+
+.checkout-section {
+  margin: 20px;
+}
+
+.video {
+  background-color: dodgerblue;
+  padding-top: 56.25%;
+  position: relative;
+}
+
+.video-iframe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.price {
+  font-size: 25px;
+  font-weight: bold;
+  color: orangered;
+}
+
+.price-discount {
+  font-weight: normal;
+  color: #999;
+  font-size: 0.5em;
+  position: relative;
+}
+
+.price-discount:before {
+  content: " ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  bottom: 0.6em;
+  opacity: 0.3;
+  background-color: white;
+}
+
+.course-cover {
+  background-size: cover;
+  background-position: center;
+  background-image: url(images/cover.png);
+  padding: 30px;
+  position: relative;
+}
+
+.course-cover:after {
+  content: " ";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: -moz-linear-gradient(
+    top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 );
+}
+
+.course-creator,
+.course-title {
+  position: relative;
+  z-index: 10;
+}
+
+.course-creator {
+  float: right;
+  margin-left: 10px;
+  width: 100px;
+  text-align: right;
+}
+
+.course-creator-logo {
+  width: 50px;
+  border-radius: 50%;
+}
+
+.course-creator-contents {
+  padding: 5px 0;
+}
+
+.course-creator-contents strong {
+  display: block;
+}
+
+.course-title {
+  overflow: hidden;
+}
+
+.course-title h1 {
+  color: white;
+  font-size: 50px;
+  line-height: 1.1;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-family: "Bebas Neue", cursive;
+}
+
+.course-title p {
+  margin-bottom: 20px;
+}
+
+.course-section {
+  margin: 20px 0;
+}
+
+.course-section h2 {
+  font-size: 30px;
+  color: #999;
+  border-bottom: 2px solid;
+  margin-bottom: 20px;
+}
+
+.curriculum-item {
+  background-color: #333;
+  margin-bottom: 10px;
+}
+
+.curriculum-item:last-child {
+  margin-bottom: 0;
+}
+
+.curriculum-item h3 {
+  margin: 10px 20px;
+}
+
+.curriculum-item-list {
+  background-color: #0e0e0e;
+  padding: 20px 0;
+  margin: 5px;
+}
+
+.curriculum-link {
+  background-color: rgba(255, 255, 255, 0.05);
+  display: block;
+  margin: 5px 20px;
+  padding: 10px;
+}
+
+.curriculum-link:before {
+  content: " ";
+  width: 0;
+  height: 0;
+  border-width: 4px 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent currentColor;
+  display: inline-block;
+  transform: translateY(-2px);
+}
+
+.curriculum-link:hover {
+  color: white;
+}
+
+.curriculum-link span {
+  float: right;
+  font-size: 10px;
+}
+
+.item {
+  background-color: #333;
+}
+
+.item-contents {
+  padding: 20px;
+}
+
+.item-contents h2 {
+  margin-bottom: 10px;
+  font-size: 30px;
+  color: white;
+}
+
+.item-footer {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.15);
+}
+
+.footer {
+  padding: 50px 0;
+  border-top: 2px solid #333;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+/* Mediaqueries */
+@media (min-width: 1400px) {
+  .l_wrapper {
+    max-width: 1400px;
+  }
+
+  .l_col_ld_12_12 {
+    width: 100%;
+  }
+
+  .l_col_ld_11_12 {
+    width: 91.66666667%;
+  }
+
+  .l_col_ld_10_12 {
+    width: 83.33333333%;
+  }
+
+  .l_col_ld_9_12 {
+    width: 75%;
+  }
+
+  .l_col_ld_8_12 {
+    width: 66.66666667%;
+  }
+
+  .l_col_ld_7_12 {
+    width: 58.33333333%;
+  }
+
+  .l_col_ld_6_12 {
+    width: 50%;
+  }
+
+  .l_col_ld_5_12 {
+    width: 41.66666667%;
+  }
+
+  .l_col_ld_4_12 {
+    width: 33.33333333%;
+  }
+
+  .l_col_ld_3_12 {
+    width: 25%;
+  }
+
+  .l_col_ld_2_12 {
+    width: 16.66666667%;
+  }
+
+  .l_col_ld_1_12 {
+    width: 8.33333333%;
+  }
+}
+
+@media (max-width: 768px) {
+  .l_sidebar {
+    width: auto;
+    float: none;
+    margin-left: 0;
+  }
+
+  .l_col_tablet_12_12 {
+    width: 100%;
+  }
+
+  .l_col_tablet_11_12 {
+    width: 91.66666667%;
+  }
+
+  .l_col_tablet_10_12 {
+    width: 83.33333333%;
+  }
+
+  .l_col_tablet_9_12 {
+    width: 75%;
+  }
+
+  .l_col_tablet_8_12 {
+    width: 66.66666667%;
+  }
+
+  .l_col_tablet_7_12 {
+    width: 58.33333333%;
+  }
+
+  .l_col_tablet_6_12 {
+    width: 50%;
+  }
+
+  .l_col_tablet_5_12 {
+    width: 41.66666667%;
+  }
+
+  .l_col_tablet_4_12 {
+    width: 33.33333333%;
+  }
+
+  .l_col_tablet_3_12 {
+    width: 25%;
+  }
+
+  .l_col_tablet_2_12 {
+    width: 16.66666667%;
+  }
+
+  .l_col_tablet_1_12 {
+    width: 8.33333333%;
+  }
+}
+
+@media (max-width: 480px) {
+  .course-cover {
+    text-align: center;
+  }
+  .course-creator {
+    float: none;
+    margin: 0;
+    width: auto;
+    text-align: center;
+  }
+  .curriculum-link span {
+    display: none;
+  }
+
+  .l_col_mobile_12_12 {
+    width: 100%;
+  }
+
+  .l_col_mobile_11_12 {
+    width: 91.66666667%;
+  }
+
+  .l_col_mobile_10_12 {
+    width: 83.33333333%;
+  }
+
+  .l_col_mobile_9_12 {
+    width: 75%;
+  }
+
+  .l_col_mobile_8_12 {
+    width: 66.66666667%;
+  }
+
+  .l_col_mobile_7_12 {
+    width: 58.33333333%;
+  }
+
+  .l_col_mobile_6_12 {
+    width: 50%;
+  }
+
+  .l_col_mobile_5_12 {
+    width: 41.66666667%;
+  }
+
+  .l_col_mobile_4_12 {
+    width: 33.33333333%;
+  }
+
+  .l_col_mobile_3_12 {
+    width: 25%;
+  }
+
+  .l_col_mobile_2_12 {
+    width: 16.66666667%;
+  }
+
+  .l_col_mobile_1_12 {
+    width: 8.33333333%;
+  }
+
+  .header-menu {
+    float: left;
+  }
+}

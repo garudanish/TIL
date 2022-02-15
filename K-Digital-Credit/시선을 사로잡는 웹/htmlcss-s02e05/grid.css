@@ -1,0 +1,119 @@
+/* Reset CSS */
+body,
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Commons */
+.clearfix:before,
+.clearfix:after {
+  content: " ";
+  display: table;
+}
+
+.clearfix:after {
+  clear: both;
+}
+
+/* Layouts */
+.l_wrapper {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.l_row {
+  margin: 0 -10px -20px -10px;
+}
+
+.l_col {
+  float: left;
+  box-sizing: border-box;
+  padding: 0 10px;
+  margin-bottom: 20px;
+}
+
+.l_col_12_12 {
+  width: 100%;
+}
+.l_col_11_12 {
+  width: 91.66666667%;
+}
+.l_col_10_12 {
+  width: 83.33333333%;
+}
+.l_col_9_12 {
+  width: 75%;
+}
+.l_col_8_12 {
+  width: 66.66666667%;
+}
+.l_col_7_12 {
+  width: 58.33333333%;
+}
+.l_col_6_12 {
+  width: 50%;
+}
+.l_col_5_12 {
+  width: 41.66666667%;
+}
+.l_col_4_12 {
+  width: 33.33333333%;
+}
+.l_col_3_12 {
+  width: 25%;
+}
+.l_col_2_12 {
+  width: 16.66666667%;
+}
+.l_col_1_12 {
+  width: 8.33333333%;
+}
+
+/* Components */
+.header,
+.footer {
+  padding: 20px 0;
+  background-color: rgba(0, 00, 0.1);
+}
+
+.contents {
+  padding: 20px 0;
+}
+
+.item {
+  background-color: orange;
+}
+
+.item-contents {
+  padding: 20px;
+}
+
+.item-footer {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
+.item-footer::before,
+.item-footer::after {
+  content: "";
+  display: table;
+}
+
+.anchor {
+  background-color: orangered;
+  color: white;
+  padding: 0.2em 0;
+  text-align: center;
+  display: block;
+}

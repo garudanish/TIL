@@ -26,6 +26,11 @@ img {
 /* Typograph */
 html {
   font-family: sans-serif;
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.4rem;
 }
 
 h1,
@@ -406,6 +411,15 @@ body {
   margin-bottom: 10px;
   font-size: 30px;
   color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-contents p {
+  height: 8em;
+  line-height: 1.6;
+  overflow: hidden;
 }
 
 .item-footer {
@@ -531,6 +545,10 @@ body {
 }
 
 @media (max-width: 480px) {
+  html {
+    font-size: 80%;
+  }
+
   .course-cover {
     text-align: center;
   }
@@ -594,5 +612,9 @@ body {
 
   .header-menu {
     float: left;
+  }
+
+  .item-contents p {
+    height: auto;
   }
 }

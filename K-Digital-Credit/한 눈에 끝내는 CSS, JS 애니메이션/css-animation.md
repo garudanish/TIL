@@ -42,3 +42,42 @@
 ### `transition`
 
 `transition: transition-property transition-duration transition-timing-function transition-delay;`의 형태로 한 번에 적용할 수 있다.
+
+## transform
+
+`transform`: 대상을 여러 형태로 변형할 때 사용하는 프로퍼티.
+`trnasition`과 함께 사용하면 엄청난 효과를 낼 수 있다.
+
+### `scale`
+
+형태의 크기를 변환시킬 때 사용한다.
+`width`와 `height`의 크기가 중심점을 기준으로 값만큼 늘어난다.
+`scale(1)`은 100%를 뜻하기 때문에 `1` 이상의 값을 입력해야 크기가 커진다.
+`scale(x, y)`처럼 인자를 두 개 넣을 수 있으며, 각각 x축, y축을 의미한다. 하나만 입력한다면 x축과 y축에 같은 값이 들어간다.
+
+### `rotate`
+
+객체를 회전시킬 때 사용한다.
+`rotate(360deg)`은 값인 `360deg`만큼 오른쪽 방향으로 회전시킨다.
+각도 값의 단위로 `deg`를 사용한다.
+한 바퀴 회전을 `transform: rotate(1turn);`으로도 작성할 수 있다.
+
+### `translate`
+
+객체를 (x, y) 지점으로 옮길 때 사용한다.
+기준점은 `scale`과 동일하게 가운데이며, 각 값이 증가할 때 x축으로는 오른쪽, y축으로는 아래쪽으로 이동한다. 만일 값이 음수라면 반대로 이동한다.
+값을 하나만 입력했을 때 `scale`과 달리 x축 방향에만 값이 들어간다.
+
+### `skew`
+
+객체를 비틀거나 기본 형태를 왜곡하고 싶을 때 사용한다.
+속성 값은 각도 값이며 `deg` 단위를 사용한다.
+값으로 x축, y축 두 개의 인자를 가지며, 하나만 입력했을 땐 x축 방향에만 값이 들어간다.
+객체 기준점을 기준으로 왼쪽 상단 끝점과 오른쪽 하단 끝점을 움직인다.
+
+### `transform-origin`
+
+> `transform`의 속성 값이 아니라 별개의 프로퍼티이다.
+
+`transform` 되는 대상의 기준점을 변경할 때 사용한다.
+기본적으로 `transform`의 기준점은 가운데지만, `transform-origin: left top;`을 설정하면 기준점이 왼쪽 위로 바뀐다.

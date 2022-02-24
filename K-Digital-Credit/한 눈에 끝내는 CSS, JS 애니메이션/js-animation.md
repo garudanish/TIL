@@ -198,3 +198,63 @@ list.addEventListener("click", (event) => {
 - `<input type="submit" />`과 같이 `form` 안에서 `submit` 역할을 하는 버튼을 클릭할 때 폼 데이터가 서버로 전송
 
 `event.preventDefault()`를 사용하면 자동으로 동작하는 것을 막을 수 있다.
+
+## Animation
+
+웹에서 애니메이션을 구현할 수 있는 세 가지 방법의 특징:
+
+- CSS Transition: 직선적인 변화만 표현할 수 있음.
+  - 주로 `button`이나 `a`에 마우스를 올렸을 때 색 변화 혹은 크기 변화 등 간단한 인터렉션에 추가하고 싶은 경우 사용
+- CSS Animations: `keyframe`별로 스타일을 지정해 변칙적인 변화를 표현 가능
+  - `transition`과 달리 애니메이션에 트리거가 반드시 필요하지 않음.
+- JS Animations: 개발자가 직접 변화를 조정해야하지만 자유롭고 세밀한 애니메이션 구현 가능.
+
+### `classList`
+
+`classList.add("className")`, `classList.remove("className")`, `classList.contains("className")`, `classList.toggle("className")`의 네 가지 메서드를 갖는다.
+
+- `classList.add("className")`: 클래스 목록에 클래스를 추가한다.
+- `classList.remove("className")`: 클래스 목록에서 클래스를 제거한다.
+- `classList.contains("className")`: 클래스 목록에 클래스가 들어있는지 여부를 `boolean`으로 리턴한다.
+- `classList.toggle("className")`: `add()`, `remove()`, `contains()` 메서드를 합친 기능. 클래스 목록에 존재하면 `remove` 메서드 역할을, 존재하지 않으면 `add` 메서드 역할을 한다.
+
+### Transition Event
+
+`transition`에 대한 이벤트를 JS로 이벤트 리스너를 추가할 수 있다.
+
+`transition`에 대한 이벤트는 `transitionrun`, `transitionstart`, `transitioncancel`, `transitionend` 네 가지가 있다.
+
+- `transitionrun`: `transition`이 처음 생성될 때, 즉 `transition-delay`가 시작되기 전에 발생한다.
+- `transitionstart`: `transition`이 실제로 시작된 경우, 즉 `transition-delay`가 끝난 후에 발생한다. 실제로 변화가 시작할 때 발상한다.
+- `transitioncancel`: `transition`이 취소된 상황에 발생한다.
+- `transitionend`: `transition`이 완료된 경우 발생한다.
+
+### Animation Event
+
+`animation`에 대한 이벤트 리스너 역시 추가할 수 있다.
+
+`animation`에 대한 이벤트는 `animationstart`, `animationiteration`, `animationend`, `animationcancel`네 가지 상태가 있다.
+
+- `animationstart`: `animtion`이 처음 생성되고 시작될 때 발생한다. `animation-delay`가 있다면 해당 값만큼 기다린 후에 `animation`이 시작되면서 `animationstart` 이벤트가 발생한다.
+- `animationiteration`: `animation-iteration-count`로 애니메이션의 반복 횟수를 지정할 수 있고, 해당 이벤트를 나타낸다.
+- `animationend`: `animation`이 끝나면 발생한다.
+- `animationcancel`: `animation`이 시작된 이후 중단하게 되면 발생한다.
+
+### Timer Function
+
+- `setTimeout`
+  - 함수를 일정 시간 뒤에 함수나 지정된 코드를 실행하는 타이머를 설정한다.
+  - 실행할 함수를 첫 번째 인자로, 일정 시간을 두 번째 인자로 받는다.
+- `clearTimeout`
+  - 앞서 실행된 `setTimeout`의 실행을 취소하는 역할을 한다.
+  - `setTimeout`을 실행하면 숫자를 반환하는데, 이것이 `timeoutID`이다. 이 값을 `clearTimeout` 함수에 전달하면 해당 ID가 가리키는 `setTimeout`의 실행이 종료된다.
+- `setInterval`
+  - 일정 시간의 간격을 두고 함수나 지정된 코드를 실행한다.
+  - 실행할 함수를 첫 번째 인자로, 일정 시간을 두 번째 인자로 받는다.
+  - 실행하자마자 반환되는 숫자 값은 `setInterval`의 ID 값이다.
+- `clearInterval`
+  - 앞서 실행된 `setInterval` 함수를 취소한다.
+
+`setTimeout`과 `setInterval`을 이용한다면 애니메이션이 생각보다 부드럽게 구동되지 않을 수 있다. 두 함수가 화면 프레임을 고려하지 않고 주어진 시간 내(혹은 이후)에 함수를 실행하기 때문이다. 이 때문에 애니메이션이 버벅대는 문제가 발생한다. 또한, 페이지를 보지 않는 시점에도 실행돼 배터리 수명이나 성능을 하락시킬 수 있다.
+
+이의 대안으로 `requestAnimationFrame`이다. `requestAnimationFrame`은 화면을 그리는 프레임 시작 지점에 맞춰 함수를 실행한다. 프레임 개수가 많아도 프레임 시작 지점과 함수 구동 시점을 맞추기 때문에 애니메이션이 자연스럽게 구동된다.

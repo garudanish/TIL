@@ -34,6 +34,14 @@ var crudApp = new (function () {
       tr.appendChild(th);
     }
 
+    for (var i = 0; i < this.myClass.length; i++) {
+      tr = table.insertRow(-1);
+      for (var j = 0; j < this.col.length; j++) {
+        var tableCell = tr.insertCell();
+        tableCell.innerHTML = this.myClass[i][this.col[j]];
+      }
+    }
+
     var div = document.getElementById("container");
     div.innerHTML = "수강관리 앱";
     div.appendChild(table);

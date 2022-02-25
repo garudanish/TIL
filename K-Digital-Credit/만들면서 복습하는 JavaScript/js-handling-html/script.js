@@ -75,6 +75,42 @@ var crudApp = new (function () {
       this.td.appendChild(btnDelete);
     }
 
+    tr = table.insertRow(-1);
+    for (var j = 0; j < this.col.length; j++) {
+      var newCell = tr.insertCell(-1);
+      if (j >= 1) {
+        if (j === 2) {
+          // category를 선택 항목으로 만들기
+          var select = document.createElement("select");
+          select.innerHTML = `<option value=""></option>`;
+
+          //선택 항목 만들기
+          for (var k = 0; k < this.Category.length; k++) {
+            select.innerHTML =
+              select.innerHTML +
+              `<option value="${this.Category[k]}">${this.Category[k]}</option>"`;
+          }
+          newCell.appendChild(select);
+        } else {
+          var textBox = document.createElement("input");
+          textBox.setAttribute("type", "text");
+          textBox.setAttribute("value", "");
+          newCell.appendChild(textBox);
+        }
+      }
+    }
+
+    // Create 버튼 만들기
+    this.td = document.createElement("td");
+    tr.appendChild(this.td);
+    var btnCreate = document.createElement("input");
+    btnCreate.setAttribute("type", "button");
+    btnCreate.setAttribute("value", "Create");
+    btnCreate.setAttribute("id", `New${i}`);
+    btnCreate.setAttribute("style", "background-color: #207dd1");
+    btnCreate.setAttribute("onclick", "crudApp.CreateNew(this)");
+    this.td.appendChild(btnCreate);
+
     var div = document.getElementById("container");
     div.innerHTML = "수강관리 앱";
     div.appendChild(table);

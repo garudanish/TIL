@@ -177,6 +177,30 @@ var crudApp = new (function () {
           td.appendChild(input);
         }
       }
+
+      var btnSave = document.getElementById(`Save${writtenIndex - 1}`);
+      btnSave.setAttribute(
+        "style",
+        "display: block; background-color: #2dbf64;"
+      );
+      pressedButton.setAttribute("style", "display: none;");
+    };
+
+    this.Save = (pressedButton) => {
+      var writtenIndex = pressedButton.parentNode.parentNode.rowIndex;
+      var trData = document.getElementById("classTable").rows[writtenIndex];
+
+      for (var i = 1; i < this.col.length; i++) {
+        var td = trData.getElementsByTagName("td")[i];
+        if (
+          td.childNodes[0].getAttribute("type") === "text" ||
+          td.childNodes[0].tagName === "SELECT"
+        ) {
+          this.myClass[writtenIndex - 1][this.col[i]] = td.childNodes[0].value;
+        }
+      }
+
+      this.createTalbe();
     };
   };
 })();

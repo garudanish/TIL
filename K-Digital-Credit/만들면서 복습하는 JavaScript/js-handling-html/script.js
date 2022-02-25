@@ -98,6 +98,15 @@ var crudApp = new (function () {
           newCell.appendChild(textBox);
         }
       }
+
+      // 삭제 메서드
+      this.Delete = (pressedButton) => {
+        // pressedButton은 Delete 버튼 input[type="button"] 태그.
+        // targetIndex: 몇 번째 row인지를 나타냄.
+        var targetIndex = pressedButton.parentNode.parentNode.rowIndex;
+        this.myClass.splice(targetIndex - 1, 1);
+        this.createTalbe();
+      };
     }
 
     // Create 버튼 만들기

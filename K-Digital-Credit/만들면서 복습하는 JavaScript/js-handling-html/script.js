@@ -152,6 +152,32 @@ var crudApp = new (function () {
       this.myClass.push(obj);
       this.createTalbe();
     };
+
+    this.Update = (pressedButton) => {
+      var writtenIndex = pressedButton.parentNode.parentNode.rowIndex;
+      var trData = document.getElementById("classTable").rows[writtenIndex];
+
+      // 기존 입력 데이터를 가져와서 새로운 input, select 태그를 띄워줌.
+      for (var i = 1; i < this.col.length; i++) {
+        if (i === 2) {
+          var td = trData.getElementsByTagName("td")[i];
+          var select = document.createElement("select");
+          select.innerHTML = `<option value=${td.innerText}>${td.innerText}</option>`;
+          for (var k = 0; k < this.Category.length; k++) {
+            select.innerHTML += `<option value=${this.Category[k]}>${this.Category[k]}</option>`;
+          }
+          td.innerText = "";
+          td.appendChild(select);
+        } else {
+          var td = trData.getElementsByTagName("td")[i];
+          var input = document.createElement("input");
+          input.setAttribute("type", "text");
+          input.setAttribute("value", td.innerText);
+          td.innerText = "";
+          td.appendChild(input);
+        }
+      }
+    };
   };
 })();
 

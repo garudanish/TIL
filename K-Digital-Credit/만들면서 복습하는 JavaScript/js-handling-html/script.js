@@ -98,15 +98,6 @@ var crudApp = new (function () {
           newCell.appendChild(textBox);
         }
       }
-
-      // 삭제 메서드
-      this.Delete = (pressedButton) => {
-        // pressedButton은 Delete 버튼 input[type="button"] 태그.
-        // targetIndex: 몇 번째 row인지를 나타냄.
-        var targetIndex = pressedButton.parentNode.parentNode.rowIndex;
-        this.myClass.splice(targetIndex - 1, 1);
-        this.createTalbe();
-      };
     }
 
     // Create 버튼 만들기
@@ -123,6 +114,44 @@ var crudApp = new (function () {
     var div = document.getElementById("container");
     div.innerHTML = "수강관리 앱";
     div.appendChild(table);
+
+    // 삭제 메서드
+    this.Delete = (pressedButton) => {
+      // pressedButton은 Delete 버튼 input[type="button"] 태그.
+      // targetIndex: 몇 번째 row인지를 나타냄.
+      var targetIndex = pressedButton.parentNode.parentNode.rowIndex;
+      this.myClass.splice(targetIndex - 1, 1);
+      this.createTalbe();
+    };
+
+    // 추가 메서드
+    this.CreateNew = (pressedButton) => {
+      var writtenIndex = pressedButton.parentNode.parentNode.rowIndex;
+      var trData = document.getElementById("classTable").rows[writtenIndex];
+      var obj = {};
+
+      // tr 데이터에서 td 속의 key: value만 뽑아서 obj 안에 저장.
+      for (var i = 1; i < this.col.length; i++) {
+        var td = trData.getElementsByTagName("td")[i];
+        if (
+          td.childNodes[0].getAttribute("type") === "text" ||
+          td.childNodes[0].tagName === "SELECT"
+        ) {
+          var textValue = td.childNodes[0].value;
+          if (textValue !== "") {
+            obj[this.col[i]] = textValue;
+            console.log(obj);
+          } else {
+            obj = "";
+            alert("모든 항목을 입력해주세요.");
+            break;
+          }
+        }
+      }
+      obj[this.col[0]] = this.myClass.length + 1; // 자동으로 새 ID 값이 부여됨
+      this.myClass.push(obj);
+      this.createTalbe();
+    };
   };
 })();
 

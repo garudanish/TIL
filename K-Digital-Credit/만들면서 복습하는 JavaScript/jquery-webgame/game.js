@@ -117,9 +117,29 @@ $(document).ready(function () {
     }
     timeCirclePosition("#" + circleName); // 바로 넣어 실행
 
+    animateCircle(circleName, circleSpeed, circleDiameter);
+
     // 3초에 한 번씩 createCircle 반복실행하며 새로운 공 생성하기
     setTimeout(function () {
       if (gameOn === true) createCircle();
     }, 3000);
+  }
+
+  function animateCircle(circleId, speed, circleDiameter) {
+    var moveableWidth = $("body").width() - circleDiameter;
+    var moveableHeight = $("body").height() - circleDiameter;
+    var circleMoveLeft = (moveableWidth * Math.random()).toFixed();
+    var circleMoveTop = (moveableHeight * Math.random()).toFixed();
+
+    $("#" + circleId).animate(
+      {
+        left: circleMoveLeft,
+        top: circleMoveTop,
+      },
+      speed,
+      function () {
+        animateCircle(circleId, speed, circleDiameter);
+      }
+    );
   }
 });

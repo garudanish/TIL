@@ -224,4 +224,17 @@ $(document).ready(function () {
       gameReset();
     });
   }
+
+  function gameReset() {
+    $("#highscores").fadeToggle(100, function () {
+      t = 0;
+      $(".timer").html(`<h3>
+          <div class="center">${t.toFixed(2)}</div>
+        </h3>`);
+      $(".resetbutton").remove();
+      $(".score").remove();
+      $(".startbutton").toggle();
+      $(".redcircle").remove();
+    });
+  }
 });

@@ -35,4 +35,16 @@ $(document).ready(function () {
       }, 10);
     }
   }
+
+  // 시작 기능
+  $(".startbutton").click(function () {
+    $(".startbutton").fadeToggle(500, function () {
+      gameOn = true;
+      timer();
+      $(".space").mouseenter(function () {
+        endGame(); // 게임을 끝내는 함수
+      });
+      createCircle();
+    });
+  });
 });

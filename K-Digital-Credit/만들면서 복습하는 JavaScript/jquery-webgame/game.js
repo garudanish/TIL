@@ -15,4 +15,24 @@ $(document).ready(function () {
   var gameOn = false;
   // 마우스 좌표
   var mouseX, mouseY;
+
+  // 마우스 움직임을 감지해서 마우스 좌표를 변수에 담아주는 함수
+  $("body").mousemove(function (event) {
+    mouseX = event.pageX;
+    mouseY = event.pageY;
+  });
+
+  // 타이머
+  function timer() {
+    if (gameOn === true) {
+      // 10ms 마다 t값을 0.01 증가시키고 증가된 t값을 .timer 하위에 찍어줌
+      setTimeout(function () {
+        t += 0.01;
+        $(".timer").html(`<h3>
+          <div class="center">${t.toFixed(2)}</div>
+        </h3>`);
+        timer();
+      }, 10);
+    }
+  }
 });

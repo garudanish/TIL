@@ -47,4 +47,79 @@ $(document).ready(function () {
       createCircle();
     });
   });
+
+  function createCircle() {
+    circleNumber++;
+
+    // 1~3 사이의 숫자 랜덤하게 생성
+    var randomOneThree = Math.floor(3 * Math.random()) + 1;
+
+    if (randomOneThree == 1) {
+      var circleChoice = "small";
+    } else if (randomOneThree == 2) {
+      var circleChoice = "medium";
+    } else if (randomOneThree == 3) {
+      var circleChoice = "large";
+    }
+
+    // id값으로 지정해줄 예정
+    var circleName = "circle" + circleNumber;
+
+    // circleChoice에 맞는 color, size, radius, speed 정의
+    var circleColor = circleTypes[circleChoice][0];
+    var circleDiameter = circleTypes[circleChoice][1];
+    var circleRadius = circleTypes[circleChoice][2];
+    var circleSpeed = circleTypes[circleChoice][3];
+
+    // 이 공이 움직일 수 있는 범위 (길이) : 가로 - 지름(size)
+    var moveableWidth = $("body").width() - circleDiameter;
+    var moveableHeight = $("body").height() - circleDiameter;
+    // moveableWidth, moveableHeight 사이에 만들어내기
+    var circlePositionLeft = (moveableWidth * Math.random()).toFixed();
+    var circlePositionTop = (moveableHeight * Math.random()).toFixed();
+
+    var newCircle = "<div class='circle' id=" + circleName + "></div>";
+
+    $("body").append(newCircle);
+
+    // 지금 생성된 Circle의 id값에 대한 CSS 지정
+    $("#" + circleName).css({
+      "background-color": circleColor,
+      width: circleDiameter + "vmin",
+      height: circleDiameter + "vmin",
+      "border-radius": circleRadius + "vmin",
+      top: circlePositionTop + "px",
+      left: circlePositionLeft + "px",
+    });
+
+    // 1ms 마다 반복실행하며 마우스와 "#"+circleName 와의 거리 계산, 맞닿으면 게임 오버
+    // circleTrackID에 "#"+circleName 넣을 예정
+    function timeCirclePosition(circleTrackID) {
+      // 1ms 마다 반복실행
+      setTimeout(function () {
+        var currentCirclePosition = $(circleTrackID).position();
+        var calculatedRadius = parseInt($(circleTrackID).css("width")) * 0.5;
+        // 마우스와의 거리 계산 - 만일 거리가 반지름보다 작다면(맞닿았다면) 게임 종료
+        var distanceX =
+          mouseX - (currentCirclePosition.left + calculatedRadius);
+        var distanceY = mouseY - (currentCirclePosition.top + calculatedRadius);
+        if (
+          Math.sqrt(Math.pow(distanceX, 2) + Math.pow(distanceY, 2)) <=
+          calculatedRadius
+        ) {
+          // 부딪힌 공 빨간색으로 표시
+          $(circleTrackID).removeClass("circle").addClass("redcircle");
+          $(circleTrackID).css("background-color", "red");
+          endgame();
+        }
+        timeCirclePosition(circleTrackID);
+      }, 1);
+    }
+    timeCirclePosition("#" + circleName); // 바로 넣어 실행
+
+    // 3초에 한 번씩 createCircle 반복실행하며 새로운 공 생성하기
+    setTimeout(function () {
+      if (gameOn === true) createCircle();
+    }, 3000);
+  }
 });

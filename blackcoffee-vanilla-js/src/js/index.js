@@ -85,7 +85,10 @@ function App() {
   };
 
   const removeMenuName = (e) => {
+    const menuId = e.target.closest("li").dataset.menuId;
+    this.menu.splice(menuId, 1);
     e.target.closest("li").remove();
+    store.setLocalStorage(this.menu);
     updateMenuCount();
   };
 

@@ -1,9 +1,9 @@
 // TODO localStorage Read & Write
-// - [ ] localStorage에 데이터를 저장한다.
+// - [x] localStorage에 데이터를 저장한다.
 //  - [x] 메뉴를 추가할 때
-//  - [ ] 메뉴를 수정할 때
-//  - [ ] 메뉴를 삭제할 때
-// - [ ] lovalStorage에 있는 데이터를 읽어 온다.
+//  - [x] 메뉴를 수정할 때
+//  - [x] 메뉴를 삭제할 때
+// - [x] lovalStorage에 있는 데이터를 읽어 온다.
 
 // TODO 카테고리별 메뉴판 관리
 // - [ ] 에스프레소 메뉴판 관리
@@ -28,28 +28,21 @@ const store = {
     localStorage.setItem("menu", JSON.stringify(menu));
   },
   getLocalStorage() {
-    localStorage.getItem("menu");
+    return JSON.parse(localStorage.getItem("menu"));
   },
 };
 
 function App() {
   // 상태(변하는 데이터) - 메뉴명
   this.menu = [];
-
-  const updateMenuCount = () => {
-    const menuCount = $("#espresso-menu-list").querySelectorAll("li").length;
-    $(".menu-count").innerText = `총 ${menuCount}개`;
+  this.init = () => {
+    if (store.getLocalStorage().length > 1) {
+      this.menu = store.getLocalStorage();
+    }
+    render();
   };
 
-  const addMenuName = () => {
-    if ($("#espresso-menu-name").value === "") {
-      alert("값을 입력해주세요!");
-      return;
-    }
-
-    const espressoMenuName = $("#espresso-menu-name").value;
-    this.menu.push({ name: espressoMenuName });
-    store.setLocalStorage(this.menu);
+  const render = () => {
     const template = this.menu
       .map((menuItem, index) => {
         return `<li data-menu-id="${index}" class="menu-list-item d-flex items-center py-2">
@@ -72,6 +65,23 @@ function App() {
 
     $("#espresso-menu-list").innerHTML = template;
     updateMenuCount();
+  };
+
+  const updateMenuCount = () => {
+    const menuCount = $("#espresso-menu-list").querySelectorAll("li").length;
+    $(".menu-count").innerText = `총 ${menuCount}개`;
+  };
+
+  const addMenuName = () => {
+    if ($("#espresso-menu-name").value === "") {
+      alert("값을 입력해주세요!");
+      return;
+    }
+
+    const espressoMenuName = $("#espresso-menu-name").value;
+    this.menu.push({ name: espressoMenuName });
+    store.setLocalStorage(this.menu);
+    render();
     $("#espresso-menu-name").value = "";
   };
 
@@ -119,3 +129,4 @@ function App() {
 }
 
 const app = new App();
+app.init();

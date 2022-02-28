@@ -45,14 +45,52 @@ function bulidTypedUrlList(divName) {
             processVisits(url, visitItems);
           };
         };
+
+        // url에 대한 세부 방문 정보
         chrome.history.getVisits({ url: url }, processVisitsWithUrl(url));
         numRequestOutStanding++;
       }
       if (!numRequestOutStanding) {
-        // 종료함수
+        // 종료 후 최종 배열 만들기
+        onAllVisitsProceed();
       }
     }
   );
+
+  // url: 반복 횟수
+  var urlToCount = [];
+
+  // url 중에서 유저가 직접 입력해서 들어간 url을 찾아서 세주는 함수
+  var processVisits = function (url, visitItems) {
+    for (var i = 0; i < visitItems.length; ++i) {
+      if (visitItems[i].transition !== "typed") {
+        continue;
+      }
+      if (!urlToCount[url]) {
+        urlToCount[url] = 0;
+      }
+      urlToCount[url]++;
+    }
+
+    if (!--numRequestOutStanding) {
+      // 종료 후 최종 배열 만들기
+      onAllVisitsProceed();
+    }
+  };
+
+  // 최종 배열 만들기 함수
+  var onAllVisitsProceed = function () {
+    urlArray = [];
+    for (var url in urlToCount) {
+      urlArray.push(url);
+    }
+
+    urlArray.sort(function (a, b) {
+      return urlToCount[b] - urlToCount[a];
+    });
+
+    buildPopupDom(divName, urlArray.slice(0, 10));
+  };
 }
 
 document.addEventListener("DOMContentLoaded", function () {

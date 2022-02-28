@@ -19,5 +19,10 @@ function buildPopupDom(divName, data) {
     var a = document.createElement("a");
     a.href = data[i];
     a.appendChild(document.createTextNode(data[i]));
+    a.addEventListener("click", onAnchorClick);
+
+    var li = document.createElement("li");
+    li.appendChild("a");
+    ul.appendChild("li");
   }
 }

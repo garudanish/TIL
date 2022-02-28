@@ -26,3 +26,35 @@ function buildPopupDom(divName, data) {
     ul.appendChild("li");
   }
 }
+
+function bulidTypedUrlList(divName) {
+  var ms = 1000 * 60 * 60 * 24 * 7;
+  var oneWeekAgo = new Date().getTime() - ms;
+
+  var numRequestOutStanding = 0;
+  chrome.history.seach(
+    {
+      startTime: oneWeekAgo,
+      text: "",
+    },
+    function (historyItems) {
+      for (var i = 0; i < historyItems.length; ++i) {
+        var url = historyItems[i].url;
+        var processVisitsWithUrl = function (url) {
+          return function (visitItems) {
+            processVisits(url, visitItems);
+          };
+        };
+        chrome.history.getVisits({ url: url }, processVisitsWithUrl(url));
+        numRequestOutStanding++;
+      }
+      if (!numRequestOutStanding) {
+        // 종료함수
+      }
+    }
+  );
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+  bulidTypedUrlList("typedUrl_div");
+});

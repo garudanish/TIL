@@ -1,5 +1,5 @@
 // TODO 서버 요청 부분
-// - [ ] 웹 서버를 띄운다.
+// - [x] 웹 서버를 띄운다.
 // - [ ] 서버메 새로운 메뉴 명을 추가될 수 있도록 요청한다.
 // - [ ] 서버에 카테별 메뉴 리스트를 불러온다.
 // - [ ] 서버에 메뉴가 수정될 수 있도록 요청한다.
@@ -13,6 +13,8 @@
 // TODO 사용자 경험
 // - [ ] API 통신이 실패하는 경우에 대해 사용자가 알 수 있게 alert으로 예외처리를 진행한다.
 // - [ ] 중복되는 메뉴는 추가할 수 없다.
+
+const BASE_URL = "http://localhost:3000/api";
 
 import { $ } from "./utils/dom.js";
 import store from "./store/index.js";
@@ -79,11 +81,26 @@ function App() {
       return;
     }
 
-    const MenuName = $("#menu-name").value;
-    this.menu[this.currentCategory].push({ name: MenuName });
-    store.setLocalStorage(this.menu);
-    render();
-    $("#menu-name").value = "";
+    const menuName = $("#menu-name").value;
+
+    fetch(`${BASE_URL}/category/${this.currentCategory}/menu`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ name: menuName }),
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        console.log(data);
+      });
+
+    // this.menu[this.currentCategory].push({ name: menuName });
+    // store.setLocalStorage(this.menu);
+    // render();
+    // $("#menu-name").value = "";
   };
 
   const updateMenuName = (e) => {
@@ -110,26 +127,26 @@ function App() {
     render();
   };
 
-  $("#menu-list").addEventListener("click", (e) => {
-    if (e.target.classList.contains("menu-edit-button")) {
-      updateMenuName(e);
-      return;
-    }
-
-    if (e.target.classList.contains("menu-remove-button")) {
-      if (confirm("정말 삭제하시겠습니까?")) {
-        removeMenuName(e);
+  const initEventListeners = () => {
+    $("#menu-list").addEventListener("click", (e) => {
+      if (e.target.classList.contains("menu-edit-button")) {
+        updateMenuName(e);
         return;
       }
-    }
 
-    if (e.target.classList.contains("menu-sold-out-button")) {
-      soldOutMenu(e);
-      return;
-    }
-  });
+      if (e.target.classList.contains("menu-remove-button")) {
+        if (confirm("정말 삭제하시겠습니까?")) {
+          removeMenuName(e);
+          return;
+        }
+      }
 
-  const initEventListeners = () => {
+      if (e.target.classList.contains("menu-sold-out-button")) {
+        soldOutMenu(e);
+        return;
+      }
+    });
+
     $("#menu-form").addEventListener("submit", (e) => {
       e.preventDefault();
     });

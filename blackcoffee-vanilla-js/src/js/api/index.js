@@ -14,7 +14,7 @@ const MenuApi = {
       body: JSON.stringify({ name }),
     });
     if (!response.ok) {
-      console.error("에러가 발생했습니다.");
+      alert("에러가 발생했습니다.");
     }
   },
   async updateMenu(category, name, menuId) {
@@ -29,7 +29,7 @@ const MenuApi = {
       }
     );
     if (!response.ok) {
-      console.error("에러가 발생했습니다.");
+      alert("에러가 발생했습니다.");
     }
     return response.json();
   },
@@ -41,7 +41,7 @@ const MenuApi = {
       }
     );
     if (!response.ok) {
-      console.error("에러가 발생했습니다.");
+      alert("에러가 발생했습니다.");
     }
   },
   async deleteMenu(category, menuId) {
@@ -52,7 +52,7 @@ const MenuApi = {
       }
     );
     if (!response.ok) {
-      console.error("에러가 발생했습니다.");
+      alert("에러가 발생했습니다.");
     }
   },
 };

@@ -155,8 +155,8 @@ linters:
     spaces: 0
 
   StringQuotes:
-    enabled: true
-    style: single_quotes
+    enabled: false
+    style: double_quotes
 
   TrailingSemicolon:
     enabled: true

@@ -5,7 +5,7 @@ var router = express.Router();
 var mongoose = require("mongoose");
 
 mongoose.connect(
-  "mongodb+srv://dbuser:dbpassword@cluster0.iqtni.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "mongodb+srv://dbuser:<password>@cluster0.iqtni.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
   { useNewUrlParser: true }
 );
 var db = mongoose.connection;

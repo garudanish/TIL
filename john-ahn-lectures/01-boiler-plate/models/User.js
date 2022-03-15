@@ -79,7 +79,7 @@ userSchema.methods.generateToken = function (callback) {
   });
 };
 
-userSchema.methods.findByToken = function (token, callback) {
+userSchema.statics.findByToken = function (token, callback) {
   var user = this;
   // 토큰을 decode한다.
   jwt.verify(token, "secretToken", function (err, decoded) {

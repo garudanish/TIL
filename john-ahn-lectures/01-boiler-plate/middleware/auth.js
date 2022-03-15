@@ -20,7 +20,7 @@ let auth = (req, res, next) => {
 
   //유저가 있으면 인증 okay
 
-  // 유저가 없으면 인중 no
+  // 유저가 없으면 인증 no
 };
 
 module.exports = { auth };

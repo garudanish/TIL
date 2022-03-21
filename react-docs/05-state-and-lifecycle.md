@@ -71,6 +71,7 @@ class Clock extends React.Component {
 세 단계에 걸쳐 `date`를 props에서 state로 이동한다.
 
 1. `render()` 메서드 안에 있는 `this.props.date`를 `this.state.date`로 변경한다.
+
    ```jsx
    class Clock extends React.Component {
      render() {
@@ -83,6 +84,7 @@ class Clock extends React.Component {
      }
    }
    ```
+
 2. 초기 `this.state`를 지정하는 class constructor를 추가한다.
 
    ```jsx

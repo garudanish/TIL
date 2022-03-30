@@ -363,3 +363,66 @@ obj.outer();
 ```
 
 콜백 함수를 인자로 받는 함수나 메서드 중에서, 기본적으로 콜백 함수 내에서의 `this`에 관여하는 함수 또는 메서드에 대해서도 `bind` 메서드를 이용해 `this` 값을 사용자의 뜻대로 바꿀 수 있다.
+
+```js
+var obj = {
+  logThis: function () {
+    console.log(this);
+  },
+  logThisLater1: function () {
+    setTimeout(this.logThis, 500);
+  },
+  logThisLate2: function () {
+    setTimeout(this.logThis.bind(this), 1000);
+  },
+};
+obj.logThisLater1(); // Window
+obj.logThisLater2(); // obj {...}
+```
+
+### 3.2.5 화살표 함수의 예외사항
+
+화살표 함수는 실행 컨텍스트 생성 시 `this`를 바인딩하는 과정이 제외됐다. 이 함수 내부에는 `this`가 아예 없으며, 접근하고자 하면 스코프체인상 가장 가까운 `this`에 접근하게 된다.
+
+```js
+var obj = {
+  outer: function () {
+    console.log(this); // outer { ... }
+    var innerFunc = () => {
+      console.log(this); // outer { ... }
+    };
+    innerFunc();
+  },
+};
+obj.outer();
+```
+
+### 3.2.6 별도의 인자로 `this`를 받는 경우(콜백함수 내에서의 `this`)
+
+콜백 함수를 인자로 받는 메서드 중 일부는 추가로 `this`로 지정할 객체(`thisArg`)를 인자로 지정할 수 있는 경우가 있다. 이때 `thisArg`를 지정하면 콜백 함수 내부에서 `this` 값을 원하는 대로 변경할 수 있다. 배열 메서드에 많으며, `Set`, `Map` 등의 메서드에도 일부 존재한다.
+
+```js
+var report = {
+  sum: 0,
+  count: 0,
+  add: function () {
+    var args = Array.prototype.slice.call(arguments);
+    args.forEach(function (entry) {
+      this.sum += entry;
+      ++this.count;
+    }, this); // forEach의 두 번째 인자로 전달한 this가 콜백함수 내부에서의 this에 바인딩 된다.
+  },
+  average: function () {
+    return this.sum / this.count;
+  },
+};
+
+report.add(60, 85, 95);
+console.log(report.sum, report.count, eport.average()); // 240 3 80
+```
+
+`report` 객체엔 `sum`, `count` 프로퍼티와 `add`, `average` 메서드가 있다. `add` 메서드는 `arguments`를 배열로 변환해 `args` 변수에 담고, 배열을 순회하면서 `forEach` 메서드로 콜백 함수를 실행한다.
+
+이때 콜백 함수 내부에서의 `this`는 `forEach` 메서드의 두 번째 인자로 전달해준 `this`가 바인딩된다. 따라서 콜백 함수 내부에서 `this`는 전역객체가 아닌, `add` 메서드의 `this`인 `report`를 가리킨다.
+
+`forEach` 외에도, `map`, `filter`, `some`, `every`, `find`, `findIndex`, `flatMap`, `from` 등의 배열 메서드와, `Set`과 `Map`에서의 `forEach` 역시 `thisArg`를 전달할 수 있다.

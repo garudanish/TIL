@@ -71,4 +71,27 @@ UI를 상호작용하게 만들려면 기반 데이터 모델을 변경할 수 �
 
 ### 4단계: state가 어디에 있어야 할 지 찾기
 
-앱에서 최소한으로 필요한 state가 무엇인지 찾아 낸 다음 단계는 어떤 컴포넌트가 state를 변경하거나 소유할 지를 찾는 것이다.
+앱에서 최소한으로 필요한 state가 무엇인지 찾아 낸 다음 단계는 어떤 컴포넌트가 state를 변경하거나 소유할 지를 찾는 것이다. **React는 항상 컴포넌트 계층구조를 따라 아래로 내려가는 단방향 데이터 흐름을 따른다.** 다음 과정을 따라 결정하면 된다.
+
+애플리케이션이 가지는 각각의 state에 대해서
+
+- state를 기반으로 렌더링하는 모든 컴포넌트를 찾는다.
+- 공통 소유 컴포넌트(common owner component)를 찾는다. (계층 구조 내에서 특정 state가 있어야 하는 모든 컴포넌트들의 상위에 있는 하나의 컴포넌트)
+- 공통 혹은 더 상위의 컴포넌트가 state를 가져야 한다.
+- state를 소유할 적절한 컴포넌트를 찾지 못했다면, state를 소유하는 컴포넌트를 하나 만들어서 공통 오너 컴포넌트의 상위 계층에 추가한다.
+
+이를 예제 애플리케이션에 적용하면 다음과 같다.
+
+- `ProductTable`은 state에 기반해 상품 리스트를 필터링해야 하고, `SearchBar`는 검색어와 체크박스 스테이트를 출력해야 한다.
+- 공통 소유 컴포넌트는 `FilterProductTable`이다.
+- 검색어와 체크박스의 체크 여부가 `FilterableProductTable`에 위치하는 것이 의미상으로도 타당하다.
+
+state를 `FilterablProductTable`에 두기로 하자. 먼저 인스턴스 속성인 `this.state = {filterText: "", isStockOnly: false}`를 `FilterableProductTable`의 `constructor`에 추가해 애플리케이션의 초기 상태를 반영한다. 그 후 `filterText`와 `isStockOnly`를 `ProductTable`과 `SearchBar`에 prop으로 전달한다. 마지막으로 이 props를 사용해 `ProductTable`의 행을 정렬하고 `SearchBar`의 폼 필드 값을 설정한다.
+
+### 5단계: 역방향 데이터 흐름 추가하기
+
+지금까지는 계층 구조 아래로 흐르는 props와 state의 함수로 앱을 만들었다. 이 단계에선 다른 방향의 데이터 흐름, 즉 계층 구조의 하단에 있는 폼 컴포넌트에서 `FilterableProductTable`의 state를 업데이트할 수 있도록 만들어야 한다.
+
+React는 전통적인 양방향 데이터 바인딩과 비교하면 더 많은 타이핑을 필요로 한다. 하지만, 데이터 흐름을 명시적으로 보이게 만들어서 프로그램이 어떻게 동작하는지 파악할 수 있게 도와준다.
+
+사용자가 폼을 변경할 때마다 사용자의 입력을 반영할 수 있도록 state를 업데이트해야 한다. 컴포넌트는 그 자신의 state만을 변경할 수 있기 때문에, `FilterableProductTable`은 `SearchBar`에 콜백을 넘겨서 state가 업데이트되어야 할 때마다 호출되도록 한다. input에 onChange 이벤트를 사용해 알림을 받을 수 있다. `FilterableProductTable`에서 존달된 콜백은 `setState()`를 호출하고 앱이 업데이트 된다.

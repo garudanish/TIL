@@ -1,19 +1,5 @@
 # git & GitHub
 
-## 🚀 학습 목표
-
-1. Git이 무엇이고 왜 필요한지 설명할 수 있다.
-2. Github가 무엇인지 알고 해당 개념을 Git과 구분하여 설명할 수 있다.
-3. 터미널 상에서 Git의 init, add, status, commit, log, push 명령어를 사용할 수 있다.
-4. Github에 Repository를 생성하고 자신의 Git 프로젝트를 업로드할 수 있다.
-
-## 💁🏻‍♂️ 멘토 가이드
-
-- Git 과 GitHub 은 우리가 개발자로서 일을 하는데 굉장히 큰 도움을 주는 툴인 만큼, 여러분들이 위코드에서 수강하시는 동안 꼭 익숙해지셔야 합니다.
-- 학습 자료의 **Introduction to Git** 을 먼저 학습 후 **Introduction to GitHub**을 읽어주세요.
-- Git과 GitHub 에 대해 조금 정리가 되셨다면, 영상 학습 자료의 영상들을 순차적으로 시청해주세요.
-- **Github에서 보안강화의 목적으로** 일반 개인용 패스워드 대신 1) SSH 암호키, 2) 암호화 된 개인 Token 을 사용하도록 변경되었습니다. [링크](https://amkorousagi-money.tistory.com/entry/Git-personal-access-token) 확인하셔서 미리 인증 절차 완료해주세요.
-
 ## Git
 
 협업 툴. VCS. Version Control System.
@@ -67,4 +53,3 @@ add 장바구니 - commit 구매 - log 영수증
 ## GitHub 실습
 
 컴퓨터는 Local이고, 원격(깃허브)은 Remote이다.
-

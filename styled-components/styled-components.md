@@ -69,3 +69,218 @@ render(
   </div>
 );
 ```
+
+### 스타일 확장하기
+
+컴포넌트를 사용하고 싶지만 어떨 때는 스타일을 조금 바꾸고 싶을 때가 자주 있다. 함수를 전달함으로써 props에 기반해 바꿀 수 있으며, 이때 스타일을 덮어 씌우는 데에는 큰 공수가 들지 않는다.
+
+새로운 컴포넌트에 스타일을 상속시키기 위해서는 `styled()` 생성자로 감싸면 된다. 다음의 예시는 지난 섹션의 버튼을 확장해, 컬러와 관련된 스타일만 바꾼 예시이다.
+
+```jsx
+const Button = styled.button`
+  color: palevioletred;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+const TomatoButton = styled(Button)`
+  color: tomato;
+  border-color: tomato;
+`;
+
+render(
+  <div>
+    <Button>Normal Button</Button>
+    <TomatoButton>Tomato Button</TomatoButton>
+  </div>
+);
+```
+
+`TomatoButton` 컴포넌트는 새로 추가한 두 줄의 선언만 다르고 `Button`의 속성을 그대로 가져온다.
+
+때로는 스타일이 지정된 구성요소가 렌더링하는 태그나 컴포넌트를 변경해야 할 수 있다. 이러한 예시는 내비게이션 바에 `<a>` 태그와 `<button>` 태그가 섞여있지만 동일한 스타일을 가져야 할 때 흔하다.
+
+이럴 때를 대비해 styled-components는 탈출구를 만들어 두었다. `as` 라는 다형성 prop을 사용해 스타일을 적용받는 요소를 동적으로 바꿀 수 있다.
+
+```jsx
+const Button = styled.button`
+  display: inline-block;
+  color: palevioletred;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+const TomatoButton = styled(Button)`
+  color: tomato;
+  border-color: tomato;
+`;
+
+render(
+  <div>
+    <Button>Normal Button</Button>
+    <Button as="a" href="#">
+      Link with Button styles
+    </Button>
+    <TomatoButton as="a" href="#">
+      Link with Tomato Button styles
+    </TomatoButton>
+  </div>
+);
+```
+
+html 태그 뿐 아니라 직접 만든 컴포넌트에도 동작한다.
+
+```jsx
+const Button = styled.button`
+  display: inline-block;
+  color: palevioletred;
+  font-size: 1em;
+  margin: 1em;
+  padding: 0.25em 1em;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+`;
+
+const ReversedButton = (props) => (
+  <Button {...props} children={props.children.split("").reverse()} />
+);
+
+render(
+  <div>
+    <Button>Normal Button</Button>
+    <Button as={ReversedButton}>Custom Button with Normal Button styles</Button>
+  </div>
+);
+```
+
+### 아무 컴포넌트나 스타일링하기
+
+`className` prop을 DOM 요소에 전달하기만 한다면, `styled` 메서드는 직접 만들었거나, 서드 파티에서 제공하는 컴포넌트에 모두 동작한다.
+
+```jsx
+const Link = ({ className, children }) => (
+  <a className={className}>{children}</a>
+);
+
+const StyledLink = styled(Link)`
+  color: palevioletred;
+  font-weight: bold;
+`;
+
+render(
+  <div>
+    <Link>Unstyled, boring Link</Link>
+    <StyledLink>Styled, exciting Link</StyledLink>
+  </div>
+);
+```
+
+### props 전달하기
+
+스타일이 지정된 대상이 `div`와 같은 단순 요소인 경우, styled-components는 알려진 HTML 속성만을 DOM에 전달한다. 만일 커스텀 리액트 컴포넌트일 경우, styled-components는 모든 prop를 통해 전달한다.
+
+다음의 예시는 Input의 모든 props가 DOM 노드가 마운팅 될 때 어떻게 전달되는지 보여준다.
+
+```jsx
+const Input = styled.input`
+  padding: 0.5em;
+  margin: 0.5em;
+  color: ${(props) => props.inputColor || "palevioletred"};
+  background: papayawhip;
+  border: none;
+  border-radius: 3px;
+`;
+
+render(
+  <div>
+    <Input defaultValue="@probablyup" type="text" />
+    <Input defaultValue="@geelen" type="text" inputColor="rebeccapurple" />
+  </div>
+);
+```
+
+`inputColor` prop은 DOM에 전달되지 않지만, `type`과 `defaultValue`는 전달 되는 것에 주목하라. styled-components는 표준적이지 않은 속성들을 자동으로 필터링한다.
+
+## CSS로부터
+
+### 어떻게 styled-components는 컴포넌트와 함께 동작하는가?
+
+만일 CSSModules 등으로 컴포넌트에 CSS를 임포트하는데 친숙하다면, 다음 예시와 같은 코드를 작성하곤 했을 것이다.
+
+```jsx
+import React, { useState } from "react";
+import styles from "./styles.css";
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((count) => count + 1);
+  };
+
+  const decrement = () => {
+    setCount((count) => count - 1);
+  };
+
+  return (
+    <div className={styles.counter}>
+      <p className={styles.paragraph}>{count}</p>
+      <button className={styles.button} onClick={increment}>
+        +
+      </button>
+      <button className={styles.button} onClick={decrement}>
+        -
+      </button>
+    </div>
+  );
+};
+
+export default Counter;
+```
+
+styled-components는 요소와 스타일 선언의 결합이므로, 위의 예시를 다음과 같이 작성할 것이다:
+
+```jsx
+import React, { useState } from "react";
+import styled from "styled-components";
+
+const StyledCounter = styled.div`
+  // 스타일 선언
+`;
+const Paragraph = styled.p`
+  // 스타일 선언
+`;
+const Button = styled.button`
+  // 스타일 선언
+`;
+
+const Counter = () => {
+  const [count, setCount] = useState(0);
+
+  const increment = () => {
+    setCount((count) => count + 1);
+  };
+
+  const decrement = () => {
+    setCount((count) => count - 1);
+  };
+
+  return (
+    <StyledCounter>
+      <Paragraph>{count}</Paragraph>
+      <Button onClick={increment}>+</Button>
+      <Button onClick={decrement}>-</Button>
+    </StyledCounter>
+  );
+};
+
+export default Counter;
+```
+
+`StyledCounter` 컴포넌트에 `Styled`라는 접두사를 붙여줌으로써, 리액트 컴포넌트 `Counter`와 스타일링된 컴포넌트인 `StyledCounter`는 충돌하지 않으면서도 개발자 도구 및 웹 검사기가 쉽게 다른 요소임을 알 수 있게 해준다는 점을 주목하라.

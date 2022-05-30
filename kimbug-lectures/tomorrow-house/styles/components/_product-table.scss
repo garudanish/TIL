@@ -1,0 +1,41 @@
+.product-table {
+  $table-cell-padding: 12px;
+  $table-th-witdth-sm: 100px;
+  $table-th-witdth-md: 140px + $table-cell-padding;
+
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  tr {
+    @include text-style(12, $primary);
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid $border;
+  }
+
+  th,
+  td {
+    padding: $table-cell-padding;
+  }
+
+  th {
+    width: $table-th-witdth-sm + $table-cell-padding;
+    font-weight: 400;
+    color: $secondary;
+  }
+
+  td {
+    padding-left: 0;
+  }
+
+  @include responsive(T) {
+    tr {
+      @include text-style(14);
+    }
+
+    th {
+      width: $table-th-witdth-md + $table-cell-padding;
+    }
+  }
+}

@@ -48,3 +48,61 @@ export default function FirstPost() {
 이 방식은 HTML 혹은 PHP 파일들로 웹사이트를 만드는 것과 비슷하다. HTML을 작성하는 것 대신에, JSX를 쓰고 리액트 컴포넌트를 사용하는 것이다.
 
 새로 만들어진 페이지에 대한 링크를 추가해 홈페이지에서 해당 페이지로 이동할 수 있게 하자.
+
+## Link Component
+
+웹사이트에서 페이지들을 연결할 때, `<a>` HTML 태그를 사용한다.
+
+Next.js에서는 `next/link`에서 `Link` 컴포넌트를 사용해 `<a>` 태그를 감싼다. `<Link>`는 당신에게 다른 페이지로의 클라이언트-사이드 내비게이션을 가능하게 해준다.
+
+## Using `<Link>`
+
+먼저, `pages/index.js`를 열고, 다음 줄을 추가함으로써 `next/link`에서 `Link` 컴포넌트를 임포트한다.
+
+```js
+import Link from "next/link";
+```
+
+그리고 다음 `h1` 태그를 찾는다.
+
+```jsx
+<h1 className="title">
+  Learn <a href="https://nextjs.org">Next.js!</a>
+</h1>
+```
+
+그리고 다음과 같이 수정한다.
+
+```jsx
+<h1 className="title">
+  Read{" "}
+  <Link href="/posts/first-post">
+    <a>this page!</a>
+  </Link>
+</h1>
+```
+
+> `{" "}`는 텍스트를 여러 줄로 나눌 때 사용하며, 빈 공간을 추가한다.
+
+다음으로, `pages/posts/first-post.js`를 열어 내용을 다음과 같이 바꾼다:
+
+```jsx
+import Link from "next/link";
+
+export default function FirstPost() {
+  return (
+    <>
+      <h1>First Post</h1>
+      <h2>
+        <Link href="/">
+          <a>Back to home</a>
+        </Link>
+      </h2>
+    </>
+  );
+}
+```
+
+확인할 수 있듯이, `Link` 컴포넌트는 `<a>` 태그의 사용법과 유사하지만, `<a href="...">`와 같이 적는 것 대신 `<Link href="...">`로 작성한 다음 `<a>` 태그를 그 안에 넣는다.
+
+잘 작동하는지 확인해 보자. 당신은 각 페이지에 링크가 생겼을 것이며, 그것을 이용해 각 페이지로 이동할 수 있을 것이다.

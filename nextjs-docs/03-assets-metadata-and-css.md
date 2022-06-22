@@ -77,3 +77,54 @@ const YourComponent = () => (
   <Image src="/images/profile.jpg" height={144} width={144} alt="Your Name" />
 );
 ```
+
+## Metadata
+
+만일 우리가 `<title>` 태그 같은 페이지의 메타데이터를 수정하고자 한다면 어떻게 해야할까?
+
+`<title>`은 `<head>` 태그의 일부이므로, 우리는 Next.js 페이지의 `<head>` 태그를 수정하는 방법을 알아봐야 한다.
+
+에디터에서 `page/index.js`를 연 뒤 다음 줄을 찾는다.
+
+```jsx
+<Head>
+  <title>Create Next App</title>
+  <link rel="icon" href="/favicon.ico" />
+</Head>
+```
+
+`<Head>`는 소문자로 쓰인 `<head>` 대신에 쓰였다는 것을 파악해야 한다. `<Head>`는 Next.js 안에 있는 리액트 컴포넌트이다. 이 컴포넌트는 페이지의 `<head>`를 수정할 수 있게 해준다.
+
+`<Head>` 컴포넌트는 `next/head` 모듈에서 임포트할 수 있다.
+
+### Adding `Head` to `first-post.js`
+
+우리는 `/posts/first-post` 라우트에 `<title>`을 추가하지 않았다. 한 번 추가해보자.
+
+`pages/posts/first-post.js` 파일을 열어 파일 첫 라인에 `next/head`로부터 `Head`를 임포트한다.
+
+```jsx
+import Head from "next/head";
+```
+
+그 후, export되는 `FirstPost` 컴포넌트에 `Head` 컴포넌트를 포함시킨다. 그 후, 단순히 `title` 태그를 추가하면 된다.
+
+```jsx
+export default function FirstPost() {
+  return (
+    <>
+      <Head>
+        <title>First Post</title>
+      </Head>
+      <h1>First Post</h1>
+      <h2>
+        <Link href="/">
+          <a>Back to home</a>
+        </Link>
+      </h2>
+    </>
+  );
+}
+```
+
+[http://localhost:3000/posts/first-post](http://localhost:3000/posts/first-post)에 접속해보면, 우리가 `<head>`에 `title` 태그를 작성한 대로 브라우저 탭에 "First Post"라고 적힌 것을 확인할 수 있다.

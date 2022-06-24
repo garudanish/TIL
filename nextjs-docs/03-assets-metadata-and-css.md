@@ -201,3 +201,107 @@ Script 컴포넌트에 몇 가지 프로퍼티가 추가로 선언된 것에 주
 [http://localhost:3000/posts/first-post](http://localhost:3000/posts/first-post)에 접속해보면, 브라우저의 개발자 도구에서 위에서 찍었던 콘솔 메시지를 콘솔 패널에서 확인할 수 있을 것이다. 거기에, `window.FB`를 실행시켜 스크립트가 전역 변수를 덧씌운 것을 확인할 수 있다.
 
 **참고**: 페이스북 SDK는 좋은 성능으로 서드파티 스크립트를 당신의 애플리케이션에 추가하는 방법을 보여주기 위해 고안된 예시로 쓰였다. 이제 당신은 Next.js에 서드파티 기능을 포함하는 것의 기본을 이해했으므로, 다음 레슨을 시작하기 전에 `FirstPost`에서 Script 컴포넌트를 지울 수 있다.
+
+## CSS Styling
+
+CSS 스타일링에 대해 알아보자.
+
+확인할 수 있듯, 인덱스 페이지([http://localhost:3000](http://localhost:3000))는 이미 스타일을 갖고 있다. `pages/index.js`를 열어보면 다음과 같은 코드를 확인할 수 있다:
+
+```jsx
+<style jsx>{`
+  …
+`}</style>
+```
+
+이 페이지는 styled-jsx라는 라이브러리를 사용하고 있다. 이는 "CSS-in-JS" 라이브러리로, 리액트 컴포넌트 안에 CSS를 작성할 수 있게 해주며, CSS 스타일에 스코프를 적용해 다른 컴포넌트들에는 적용되지 않게끔 한다.
+
+Next.js는 styled-jsx에 대한 빌트인 지원을 갖고 있지만, styled-components나 emotion과 같은 다른 CSS-in-JS 라이브러리를 사용할 수도 있다.
+
+### Writing and Importing CSS
+
+Next.js는 CSS와 Sass를 빌트인 지원하므로 당신은 `.css`와 `.scss` 파일을 임포트할 수 있다.
+
+Tailwind CSS와 같은 유명한 CSS 라비르러리 역시 지원된다.
+
+이 레슨에선, 어떻게 Next.js에서 CSS를 작성하고 임포트하는 지 알아볼 것이다. 또한 Next.js의 CSS 모듈과 Sass에 대한 빌트인 지원에 대해서도 알아볼 것이다.
+
+## Layout Component
+
+먼저, 모든 페이지에서 쓰이는 레이아웃 컴포넌트를 만든다.
+
+- 최상위에 `components` 디렉토리를 만든다.
+- `components` 안에 다음과 같은 내용의 `layout.js` 파일을 만든다.
+
+```jsx
+export default function Layout({ children }) {
+  return <div>{children}</div>;
+}
+```
+
+그 후, `pages/posts/first-post.js`를 열어 `Layout` 컴포넌트를 임포트하고, 최상위 컴포넌트로써 사용한다.
+
+```jsx
+import Head from "next/head";
+import Link from "next/link";
+import Layout from "../../components/layout";
+
+export default function FirstPost() {
+  return (
+    <Layout>
+      <Head>
+        <title>First Post</title>
+      </Head>
+      <h1>First Post</h1>
+      <h2>
+        <Link href="/">
+          <a>Back to home</a>
+        </Link>
+      </h2>
+    </Layout>
+  );
+}
+```
+
+### Adding CSS
+
+`Layout` 컴포넌트에 몇 가지 스타일을 추가해보자. 추가하기 위해서 우리는 리액트 컴포넌트에 CSS 파일을 임포트할 수 있게 해주는 CSS 모듈을 사용할 것이다.
+
+다음과 같은 내용의 `components/layout.module.css` 파일을 생성한다.
+
+```css
+.container {
+  max-width: 36rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+}
+```
+
+> 중요사항: CSS 모듈을 사용하기 위해선 CSS 파일의 이름이 반드시 `.module.css`로 끝나야한다.
+
+`container` 클래스를 `components/layout.js`에서 사용하기 위해선 다음과 같이 해야한다:
+
+- CSS 파일을 임포트하고 `styles`와 같은 이름을 할당해야 한다.
+- `styles.container`를 `className`으로 사용해야 한다.
+
+`components/layout.js`를 열고 내용을 다음과 같이 수정한다:
+
+```jsx
+import styles from "./layout.module.css";
+
+export default function Layout({ children }) {
+  return <div className={styles.container}>{children}</div>;
+}
+```
+
+[http://localhost:3000/posts/first-post](http://localhost:3000/posts/first-post)에 가 보면, 텍스트들이 중앙 정렬된 컨테이너에 들어가 있는 것을 확인할 수 있다.
+
+### Automatically Generates Unique Class Names
+
+브라우저의 개발자 도구에서 HTML을 살펴보면, `Layout` 컴포넌트에 의해 렌더된 `div`가 `layout_container__...`과 같은 클래스 이름을 갖고 있는 것을 확인할 수 있다.
+
+이것이 CSS 모듈이 하는 일이다: 자동으로 고유한 클래스 이름을 만들어준다. CSS 모듈을 사용하는 한, 당신은 클래스 이름이 충돌하는 것을 걱정할 필요가 없다.
+
+게다가, Next.js의 코드 스필리팅 기능은 CSS 모듈에서도 작동한다. 즉, 각 페이지에서 최소한의 CSS만이 로드된다. 이를 통해 번들 사이즈가 더욱 작아진다.
+
+CSS 모듈들은 빌드 될 때 자바스크립트 번들로부터 추출되고, Next.js에 의해 자동으로 로드되는 `.css` 파일을 생성한다.

@@ -382,3 +382,212 @@ export default function App({ Component, pageProps }) {
 ```
 
 이제, [http://localhost:3000/posts/first-post](http://localhost:3000/posts/first-post)에 접속하면 작성한 스타일이 적용된 것을 확인할 수 있다.
+
+## Polishing Layout
+
+지금까지, CSS 모듈과 같은 개념을 설명하기 위해 최소한의 리액트와 CSS 코드만을 추가했다. 데이터 fetch를 다루는 다음 레슨으로 넘어가기 전에, 우리의 페이지 스타일링과 코드를 조금 더 다듬어보자.
+
+### Update `components/layout.module.css`
+
+`components/layout.module.css`를 열어 내용을 레이아웃과 프로필 사진 스타일을 다듬은 다음과 같이 바꾼다:
+
+```css
+.container {
+  max-width: 36rem;
+  padding: 0 1rem;
+  margin: 3rem auto 6rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.backToHome {
+  margin: 3rem 0 0;
+}
+```
+
+### Create `styles/utils.module.css`
+
+두번 째로, 여러 컴포넌트에서 유용하게 쓰일, 타이포그래피와 다른 것들을 위한 CSS 클래스들을 만든다.
+
+다음과 같은 내용의 `styles/utils.module.css` 파일을 만든다:
+
+```css
+.heading2Xl {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  font-weight: 800;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
+}
+
+.headingXl {
+  font-size: 2rem;
+  line-height: 1.3;
+  font-weight: 800;
+  letter-spacing: -0.05rem;
+  margin: 1rem 0;
+}
+
+.headingLg {
+  font-size: 1.5rem;
+  line-height: 1.4;
+  margin: 1rem 0;
+}
+
+.headingMd {
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.borderCircle {
+  border-radius: 9999px;
+}
+
+.colorInherit {
+  color: inherit;
+}
+
+.padding1px {
+  padding-top: 1px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.listItem {
+  margin: 0 0 1.25rem;
+}
+
+.lightText {
+  color: #666;
+}
+```
+
+### Update `components/layout.js`
+
+세번 째로, `components/layout.js`를 열어 다음과 같은 내용으로 수정한다. 이 때, `Your Name`은 실제 이름으로 수정한다.
+
+```jsx
+import Head from "next/head";
+import Image from "next/image";
+import styles from "./layout.module.css";
+import utilStyles from "../styles/utils.module.css";
+import Link from "next/link";
+
+const name = "Your Name";
+export const siteTitle = "Next.js Sample Website";
+
+export default function Layout({ children, home }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <link rel="icon" href="/favicon.ico" />
+        <meta
+          name="description"
+          content="Learn how to build a personal website using Next.js"
+        />
+        <meta
+          property="og:image"
+          content={`https://og-image.vercel.app/${encodeURI(
+            siteTitle
+          )}.png?theme=light&md=0&fontSize=75px&images=https%3A%2F%2Fassets.vercel.com%2Fimage%2Fupload%2Ffront%2Fassets%2Fdesign%2Fnextjs-black-logo.svg`}
+        />
+        <meta name="og:title" content={siteTitle} />
+        <meta name="twitter:card" content="summary_large_image" />
+      </Head>
+      <header className={styles.header}>
+        {home ? (
+          <>
+            <Image
+              priority
+              src="/images/profile.jpg"
+              className={utilStyles.borderCircle}
+              height={144}
+              width={144}
+              alt={name}
+            />
+            <h1 className={utilStyles.heading2Xl}>{name}</h1>
+          </>
+        ) : (
+          <>
+            <Link href="/">
+              <a>
+                <Image
+                  priority
+                  src="/images/profile.jpg"
+                  className={utilStyles.borderCircle}
+                  height={108}
+                  width={108}
+                  alt={name}
+                />
+              </a>
+            </Link>
+            <h2 className={utilStyles.headingLg}>
+              <Link href="/">
+                <a className={utilStyles.colorInherit}>{name}</a>
+              </Link>
+            </h2>
+          </>
+        )}
+      </header>
+      <main>{children}</main>
+      {!home && (
+        <div className={styles.backToHome}>
+          <Link href="/">
+            <a>← Back to home</a>
+          </Link>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+달라진 점은 다음과 같다:
+
+- `meta` 태그(`og"image` 등)가 페이지의 내용을 설명하기 위해 추가되었다.
+- 불리언 값을 가지는 `home` prop이 타이틀과 이미지 사이즈를 조정한다.
+- `home`이 `false` 라면 "Back to home"링크가 마지막에 추가된다.
+- `next/image`를 통해 이미지가 추가되었고, `priority` 속성을 통해 먼저 로드된다.
+
+### Update `pages/index.js`
+
+마지막으로, 홈페이지를 업데이트한다.
+
+`pages/index.js`를 열어 다음과 같이 수정한다:
+
+```jsx
+import Head from "next/head";
+import Layout, { siteTitle } from "../components/layout";
+import utilStyles from "../styles/utils.module.css";
+
+export default function Home() {
+  return (
+    <Layout home>
+      <Head>
+        <title>{siteTitle}</title>
+      </Head>
+      <section className={utilStyles.headingMd}>
+        <p>[Your Self Introduction]</p>
+        <p>
+          (This is a sample website - you’ll be building a site like this on{" "}
+          <a href="https://nextjs.org/learn">our Next.js tutorial</a>.)
+        </p>
+      </section>
+    </Layout>
+  );
+}
+```
+
+그 후 `[Your Self Introduction]`을 당신의 자기소개로 바꾼다.
+
+이것이 다이다! 이제 우리는 데이터 fetch 레슨을 진행할 수 있는 다듬어진 레이아웃 코드를 가졌다.
+
+이 레슨을 마무리하기 전에, 다음 섹션에선 Next.js의 CSS 지원과 관련된 유용한 테크닉을 다룰 것이다.

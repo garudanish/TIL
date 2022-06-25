@@ -305,3 +305,80 @@ export default function Layout({ children }) {
 게다가, Next.js의 코드 스필리팅 기능은 CSS 모듈에서도 작동한다. 즉, 각 페이지에서 최소한의 CSS만이 로드된다. 이를 통해 번들 사이즈가 더욱 작아진다.
 
 CSS 모듈들은 빌드 될 때 자바스크립트 번들로부터 추출되고, Next.js에 의해 자동으로 로드되는 `.css` 파일을 생성한다.
+
+## Global Styles
+
+CSS 모듈은 컴포넌트 레벨 스타일에서 유용하다. 하지만 어떤 CSS를 모든 페이지에 적용하고자 한다면, Next.js는 그것 역시 지원한다.
+
+글로벌 CSS 파일들을 로드하고자 할 때, 다음과 같은 내용의 `pages/_app.js`를 만든다:
+
+```jsx
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+이 `App` 컴포넌트는 모든 페이지들을 가로지르는 최상위 컴포넌트이다. 이 `App` 컴포넌트를 페이지를 이동할 때 state를 유지하는 용도 등으로 사용할 수 있다.
+
+### Restart the Development Server
+
+**중요사항**: `pages/_app.js`를 추가한 뒤엔 개발 서버를 재시작해야 한다. `Ctrl + C`를 눌러 서버를 중지한 뒤 다음의 커맨드를 실행한다:
+
+```shell
+npm run dev
+```
+
+### Adding Global CSS
+
+Next.js에서, 글로벌 CSS 파일을 `pages/_app.js`에 임포트함으로써 적용할 수 있다. 이곳 외에 글로벌 CSS를 임포트할 수 있는 곳은 없다.
+
+글로벌 CSS를 `pages/_app.js` 외에 임포트할 수 없는 이유는 글로벌 CSS는 페이지의 모든 요소에 영향을 끼치기 때문이다.
+
+만일 홈페이지에서 `/post/first-post` 페이지로 이동했을 때, 홈페이지에 적용된 글로벌 스타일은 의도하지 않게 `/posts/first-post`에도 영향을 끼칠 것이다.
+
+글로벌 CSS 파일은 어느 위치에 어느 이름으로도 저장될 수 있다. 따라서 다음과 같이 한다:
+
+- 최상위에 `styles` 디렉토리를 생성하고, 그 안에 `global.css` 파일을 생성한다.
+- `styles/global.css`에 다음과 같은 내용을 추가한다. 이는 몇 가지 스타일을 리셋하고 `a` 태그의 색을 변경한다:
+
+- ```css
+  html,
+  body {
+    padding: 0;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu,
+      Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    line-height: 1.6;
+    font-size: 18px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  a {
+    color: #0070f3;
+    text-decoration: none;
+  }
+
+  a:hover {
+    text-decoration: underline;
+  }
+
+  img {
+    max-width: 100%;
+    display: block;
+  }
+  ```
+
+마지막으로, `pages/_app.js` 파일을 열어 CSS 파일을 다음과 같이 추가한다:
+
+```jsx
+import "../styles/global.css";
+
+export default function App({ Component, pageProps }) {
+  return <Component {...pageProps} />;
+}
+```
+
+이제, [http://localhost:3000/posts/first-post](http://localhost:3000/posts/first-post)에 접속하면 작성한 스타일이 적용된 것을 확인할 수 있다.

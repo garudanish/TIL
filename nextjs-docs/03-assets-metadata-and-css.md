@@ -591,3 +591,96 @@ export default function Home() {
 이것이 다이다! 이제 우리는 데이터 fetch 레슨을 진행할 수 있는 다듬어진 레이아웃 코드를 가졌다.
 
 이 레슨을 마무리하기 전에, 다음 섹션에선 Next.js의 CSS 지원과 관련된 유용한 테크닉을 다룰 것이다.
+
+## Styling Tips
+
+도움이 될만 한 몇 가지 스타일링 팁들을 소개한다.
+
+> 다음의 섹션들은 읽기만 해도 된다. 튜토리얼에서 만드는 앱에는 수정사항이 없다.
+
+### Using `classnames` library to toggle classes
+
+`classnames`는 클래스를 쉽게 토글할 수 있게 해주는 단순한 라이브러리이다. `npm install classnames`나 `yarn add classnames`을 통해 설치할 수 있다.
+
+자세한 내용은 [공식문서](https://github.com/JedWatson/classnames)를 참고하라. 기본 사용방법은 다음과 같다:
+
+- `"success"` 혹은 `"error"`라는 `type`을 받는 `Alert` 컴포넌트를 만든다고 가정하자
+- 만일 `"success"`라면 텍스트의 색상이 초록색이어야 하고, `"error"`라면 빨간색이어야 한다.
+
+먼저, CSS 모듈(e.g., `alert.module.css`)을 다음과 같이 작성한다:
+
+```css
+.success {
+  color: green;
+}
+.error {
+  color: red;
+}
+```
+
+그리고 `classnames`를 다음과 같이 사용한다:
+
+```jsx
+import styles from "./alert.module.css";
+import cn from "classnames";
+
+export default function Alert({ children, type }) {
+  return (
+    <div
+      className={cn({
+        [styles.success]: type === "success",
+        [styles.error]: type === "error",
+      })}
+    >
+      {children}
+    </div>
+  );
+}
+```
+
+### Customizing PostCSS Config
+
+기본적으로 설정이 없다면 Next.js는 PostCSS를 사용해 CSS를 컴파일한다.
+
+PostCSS 컴피그를 커스터마이징하고 싶다면, 최상위에 `postcss.config.js` 파일을 만들어야 한다. 이는 Tailwind CSS 등의 라이브러리를 사용할 때 유용하다.
+
+다음은 Tailwind CSS를 추가하는 방법이다. 먼저, 패키지를 설치한다:
+
+```shell
+npm install -D tailwindcss autoprefixer postcss
+```
+
+그리고, `postcss.config.js`를 만든다.
+
+```js
+module.exports = {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+};
+```
+
+또한 `tailwind.config.js`에 `content` 옵션을 특정함으로써 컨텐츠 소스를 구성하는 것을 추천한다.
+
+```js
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+    // For the best performance and to avoid false positives,
+    // be as specific as possible with your content configuration.
+  ],
+};
+```
+
+### Using Sass
+
+기본적으로 Next.js에서 `.scss`와 `.sass` 확장을 사용해 Sass를 임포트할 수 있다. `.module.scss`나 `.module.sass` 확장을 이용해 CSS 모듈을 통한 컴포넌트 레벨 Sass를 사용할 수도 있다.
+
+Next.js의 빌트인 Sass 지원을 사용하기 전에, `sass`가 설치되었는지 확인하라.
+
+```shell
+npm install -D sass
+```

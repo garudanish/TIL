@@ -11,3 +11,43 @@
 - 데이터가 있는 정적 생성과 없는 정적 생성
 - `getStaticProps`를 활용해 인덱스 페이지 안에 외부 블로그 데이터를 임포트하는 방법
 - `getStaticProps`에 대한 유용한 정보
+
+## Pre-rendering
+
+데이터 fetching에 대해 이야기 하기 전에, Next.js의 가장 중요한 컨셉트 중 하나인 프리 렌더링에 대해 다룬다.
+
+기본적으로, Next.js는 모든 페이지를 프리 렌더링한다. 즉, Next.js는 클라이언트 사이드 자바스크립트가 HTML을 만드는 것 대신, _사전에 모든 페이지의 HTML을 만들어둔다_. 프리 렌더링은 성능과 SEO의 측면에서 더 나은 결과를 보인다.
+
+각각의 생성된 HTML은 그 페이지에 필요한 최소한의 자바스크립트 코드들과 연관되어있다. 페이지가 브라우저에 의해 로드될 때, 그 페이지의 자바스크립트 코드는 실행되고 페이지를 완벽히 상호작용가능하게 만든다. (이 과정을 **hydration**이라 한다.)
+
+### Check That Pre-rendering Is Happening
+
+프리 렌더링이 일어나는지 다음의 단계를 통해 확인할 수 있다.
+
+- 브라우저에서 자바스크립트를 비활성화시킨다
+- 이 튜토리얼의 최종 결과물인 [이 페이지](https://next-learn-starter.vercel.app/)에 접속한다.
+
+앱이 자바스크립트 없이 렌더링되는 것을 확인할 수 있다. 이는 Next.js가 정적 HTML로 프리렌더링했고, 자바스크립트를 실행하지 않고도 앱의 UI를 보여주기 때문이다.
+
+> 참고: `localhost`에서도 위의 단계를 시도할 수 있지만, 자바스크립트를 비활성화했을 경우 CSS가 로드되지 않을 것이다.
+
+만일 앱이 Next.js가 아닌 순수한 리액트 앱이었다면, 프리 렌더링 기능이 없어 자바스크립트를 비활성화 했을 때 앱을 볼 수 없었을 것이다. 예를 들어:
+
+- 브라우저에서 자바스크립트를 활성화하고 [이 페이지](https://create-react-template.vercel.app/)에 접속한다. 이 페이지는 CRA를 통해 만들어진 순수한 리액트 앱이다.
+- 자바스크립트를 비활성화하고 같은 페이지에 다시 접속한다
+- 앱 대신, 이 앱을 실행시키기 위해선 자바스크립트를 활성화해야 한다는 문구를 확인할 수 있다.이는 앱이 정적 HTML로 프리 렌더링 되지 않기 때문이다.
+
+### Summary: Pre-rendering vs No Pre-rendering
+
+다음은 그래픽으로 표현된 요약이다:
+
+![Pre-rendering using next.js](https://nextjs.org/static/images/learn/data-fetching/pre-rendering.png)
+
+- 첫 로드: 프리 렌더링된 HTML이 디스플레이된다.
+- Hydration: 리액트 컴포넌트들이 초기화되고 앱이 상호작용 가능하게 된다.
+  - 만일 앱에 `<Link />`와 같은 상호작용 가능한 컴포넌트를 갖고 있을 경우, 자바스크립트가 로드된 후에 사용할 수 있다.
+
+![No Pre-rendering using plain react.js app](https://nextjs.org/static/images/learn/data-fetching/no-pre-rendering.png)
+
+- 첫 로드: 앱이 렌더링되지 않는다
+- Hydration: 리액트 컴포넌트들이 초기화되고 앱이 상호작용 가능하게 된다.

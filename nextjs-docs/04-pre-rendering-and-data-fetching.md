@@ -123,3 +123,61 @@ export async function getStaticProps() {
 ### Let's Use `getStaticProps`
 
 직접 하면서 배우는 것이 더 쉬우므로, 다음 페이지부터 블로그를 구현하기 위해 `getStaticProps`를 사용할 것이다.
+
+## Blog Data
+
+파일 시스템을 이용해 블로그 데이터를 추가한다, 각 블로그 포스트는 마크다운 파일이 될 것이다.
+
+- `posts`라는 최상위 디렉토리를 만든다(이 디렉토리는 `pages/posts`와는 다르다).
+- `posts` 안에 두 파일을 생성한다: `pre-rendering.md`와 `ssg-ssr.md`
+
+`posts/pre-rendering.md`의 내용을 다음과 같이 붙여넣기 한다:
+
+```markdown
+---
+title: "Two Forms of Pre-rendering"
+date: "2020-01-01"
+---
+
+Next.js has two forms of pre-rendering: **Static Generation** and **Server-side Rendering**. The difference is in **when** it generates the HTML for a page.
+
+- **Static Generation** is the pre-rendering method that generates the HTML at **build time**. The pre-rendered HTML is then _reused_ on each request.
+- **Server-side Rendering** is the pre-rendering method that generates the HTML on **each request**.
+
+Importantly, Next.js lets you **choose** which pre-rendering form to use for each page. You can create a "hybrid" Next.js app by using Static Generation for most pages and using Server-side Rendering for others.
+```
+
+그리고, `posts/ssg-ssr.md`의 내ㅐ용을 다음과 같이 붙여넣기 한다:
+
+```markdown
+---
+title: "When to Use Static Generation v.s. Server-side Rendering"
+date: "2020-01-02"
+---
+
+We recommend using **Static Generation** (with and without data) whenever possible because your page can be built once and served by CDN, which makes it much faster than having a server render the page on every request.
+
+You can use Static Generation for many types of pages, including:
+
+- Marketing pages
+- Blog posts
+- E-commerce product listings
+- Help and documentation
+
+You should ask yourself: "Can I pre-render this page **ahead** of a user's request?" If the answer is yes, then you should choose Static Generation.
+
+On the other hand, Static Generation is **not** a good idea if you cannot pre-render a page ahead of a user's request. Maybe your page shows frequently updated data, and the page content changes on every request.
+
+In that case, you can use **Server-Side Rendering**. It will be slower, but the pre-rendered page will always be up-to-date. Or you can skip pre-rendering and use client-side JavaScript to populate data.
+```
+
+> 각 마크다운 파일은 `title`과 `date`라는 메타데이터 섹션을 상위에 갖고 있다. 이는 YAM Front Matter라는 것으로, gray-matter라는 라이브러리를 사용해 파싱할 수 있게 한다.
+
+### Parsing the Blog Data on getStaticProps
+
+인덱스 페이지를 이 데이터를 이용해 업데이트하자. 우리는 앞으로 다음과 같은 일을 할 것이다:
+
+- 각 마크다운 파일을 파싱하고 `title`, `date`, 파일 이름(포스트 URL의 `id`로 쓰인다)을 가진다
+- 인덱스 페이지에서 데이터를 목록화하고, 날짜에 따라 정렬한다.
+
+이를 프리 렌더링하기 위해 `getStaticProps`를 구현해야 한다.

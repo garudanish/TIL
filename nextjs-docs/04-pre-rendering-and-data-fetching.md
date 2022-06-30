@@ -85,3 +85,41 @@ Next.js에는 두 가지 형태의 프리렌더링이 있다: 정적 생성성�
 ### We'll Focus on Static Generation
 
 이 레슨에서는 정적 생성에 주목할 것이다. 다음 페이지에서는 데이터의 유무에 따른 정적 생성을 다룬다.
+
+## Static Generation with and without Data
+
+정적 생성은 데이터의 유무와 상관없이 실행될 수 있다.
+
+지금까지 만든 모든 페이지는 외부 데이터를 fetch해올 필요가 없었다. 그 페이지들은 자동으로 앱이 빌드될 때 정적으로 생성된다.
+
+하지만 몇 페이지들은 외부 데이터를 fetch하지 않고는 렌더링할 수 없을 것이다. 빌드할 때 파일 시스템에 접근하거나, 외부 API나 데이터베이스 쿼리를 fetch 해와야 할 것이다. Next.js는 이런 경우(데이터가 필요한 정적 생성)를 설정 없이 지원한다.
+
+### Static Generation with Data using `getStaticProps`
+
+Next.js에선 페이지 컴포넌트를 익스포트할 때 `getStaticProps`라는 `async` 함수 역시 익스포트할 수 있다. 이렇게 하면:
+
+- `getStaticProps`는 빌드할 때 실행된다
+- 함수 안에서, 외부 데이터를 fetch한 후 그 데이터를 페이지에 props로 전달한다.
+
+```jsx
+export default function Home(props) { ... }
+
+export async function getStaticProps() {
+  // Get external data from the file system, API, DB, etc.
+  const data = ...
+
+  // The value of the `props` key will be
+  //  passed to the `Home` component
+  return {
+    props: ...
+  }
+}
+```
+
+본질적으로, `getStaticProps`는 Next.js에게 다음과 같은 말을 전달한다: _"이 페이지는 데이터 의존성을 갖고 있어. 그러니까 빌드 시 이 페이지를 프리 렌더링할 때, 그 데이터들을 먼저 해결해야돼!"_
+
+> 참고: 개발 모드에선 `getStaticProps`는 각 요청 때마다 실행된다.
+
+### Let's Use `getStaticProps`
+
+직접 하면서 배우는 것이 더 쉬우므로, 다음 페이지부터 블로그를 구현하기 위해 `getStaticProps`를 사용할 것이다.

@@ -346,3 +346,56 @@ export async function getSortedPostsData() {
 정적 생성은 유저의 요청 이전에 어떤 페이지를 프리 렌더링해야 한다면 좋은 방안이 아니다. 그 페이지는 아마 자주 업데이트되는 데이터를 보여주어야 할 것이고, 페이지의 내용은 각 요청 때마다 바뀌어야 할 것이다.
 
 이럴 때, 서버 사이드 렌더링을 사용하거나 프리 렌더링을 사용하지 않을 수 있다. 다음 레슨으로 넘어가기 전에 이러한 방식에 대해 다룰 것이다.
+
+## Fetching Data at Request Time
+
+만일 빌드할 때가 아니라 요청할 때 데이터를 fetch해야 한다면, 서버 사이드 렌더링을 사용할 수 있다.
+
+서버 사이드 렌더링을 사용하기 위해서는 `getServersideProps`를 `getStaticProps` 대신 익스포트 해야 한다.
+
+### Using `getServerSideProps`
+
+다음은 `getServerSideProps`의 기본 코드이다. 우리가 만드는 블로그에서는 필요하지 않기 때문에 구현하지 않을 것이다.
+
+```jsx
+export async function getServerSideProps(context) {
+  return {
+    props: {
+      // props for your component
+    },
+  };
+}
+```
+
+`getServerSideProps`는 요청할 때 실행되므로, 파라미터(`context`)는 특정한 파라미터 요청을 포함해야 한다.
+
+`getServerSideProps`는 요청할 때 데이터가 fetch되어야 하는 페이지를 프리 렌더링할 때에만 쓰여야 한다. 모든 요청의 결과를 서버에서 계산해야 하므로, 첫 바이트를 받는 시간(Time to first byte, TTFB)이 `getStaticProps`보다 느리고, 그 결과 역시 추가적인 설정 없이는 CDN에 의해 캐싱되지 않는다.
+
+### Client-side Rendering
+
+데이터를 프리 렌더링해야할 필요가 없다면 클라이언트 사이드 렌더링이라는 다음의 전략을 사용할 수도 있다.
+
+- 외부 데이터가 필요하지 않은 페이지의 부분을 정적으로 생성(프리 렌더링)한다
+- 페이지가 로드되면 자바스크립트를 사용해 클라이언트로부터 외부 데이터를 fetch해오고, 남은 부분을 채운다.
+
+![client-side rendering](https://nextjs.org/static/images/learn/data-fetching/client-side-rendering.png)
+
+이 접근은 유저 대시보드 페이지 등의 예시에서 잘 작동할 것이다. 대시보드는 사적이고, 유저가 특정되는 페이지고, SEO와 관련 없고, 페이지가 프리 렌더링될 필요가 없기 때문이다. 데이터는 자주 업데이트 되고, 그 데이터는 요청할 때 데이터를 fetch해야 한다.
+
+### SWR
+
+Next.js 팀은 SWR이라는 데이터 fetch를 위한 리액트 훅을 만들었다. 만일 클라이언트 사이드에서 데이터를 fetch해야 한다면 이 훅을 사용하는 것을 강력히 추천한다. 이 훅은 캐싱, 재검증(revalidation), 포커스 트래킹, 반복 재fetch 등을 다룬다. 자세한 건 다루지 않지만 다음과 같이 사용할 수 있다:
+
+```jsx
+import useSWR from "swr";
+
+function Profile() {
+  const { data, error } = useSWR("/api/user", fetch);
+
+  if (error) return <div>failed to load</div>;
+  if (!data) return <div>loading...</div>;
+  return <div>hello {data.name}!</div>;
+}
+```
+
+자세한 정보는 [SWR 문서](https://swr.vercel.app/ko)를 확인하라.

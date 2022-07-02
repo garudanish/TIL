@@ -181,3 +181,168 @@ In that case, you can use **Server-Side Rendering**. It will be slower, but the 
 - 인덱스 페이지에서 데이터를 목록화하고, 날짜에 따라 정렬한다.
 
 이를 프리 렌더링하기 위해 `getStaticProps`를 구현해야 한다.
+
+## Implement getStaticProps
+
+먼저, 마크다운 파일에서 메타데이터를 파싱할 수 있게 해주는 gray-matter을 설치한다.
+
+```shell
+npm install gray-matter
+```
+
+이후, 우리는 파일 시스템에서 데이터를 fetch 해오는 단순한 라이브러리를 만들 것이다.
+
+- 최상위에 `lib`라는 디렉토리를 만든다
+- `lib` 디렉토리 안에 다음과 같은 내용의 `posts.js` 파일을 생성한다.
+
+```js
+import fs from "fs";
+import path from "path";
+import matter from "gray-matter";
+
+const postsDirectory = path.join(process.cwd(), "posts");
+
+export function getSortedPostsData() {
+  // Get file names under /posts
+  const fileNames = fs.readdirSync(postsDirectory);
+  const allPostsData = fileNames.map((fileName) => {
+    // Remove ".md" from file name to get id
+    const id = fileName.replace(/\.md$/, "");
+
+    // Read markdown file as string
+    const fullPath = path.join(postsDirectory, fileName);
+    const fileContents = fs.readFileSync(fullPath, "utf8");
+
+    // Use gray-matter to parse the post metadata section
+    const matterResult = matter(fileContents);
+
+    // Combine the data with the id
+    return {
+      id,
+      ...matterResult.data,
+    };
+  });
+  // Sort posts by date
+  return allPostsData.sort(({ date: a }, { date: b }) => {
+    if (a < b) {
+      return 1;
+    } else if (a > b) {
+      return -1;
+    } else {
+      return 0;
+    }
+  });
+}
+```
+
+> 참고: Next.js에선 `lib` 폴더는 `pages` 폴더와 같이 할당된 이름이 아니므로, 어떤 이름으로 지어도 상관 없다. 관습 상 `lib` 이나 `utils`로 짓는다.
+
+이제, 우리는 `getSortedPoostsData`를 임포트해야 하고, 그것을 `pages/index.js`의 `getStaticProps` 안에 호출해야 한다.
+
+`pages/index.js`를 열고 `Home` 컴포넌트를 익스포트하기 전에 다음과 같은 코트를 추가한다.
+
+```jsx
+import { getSortedPostsData } from "../lib/posts";
+
+export async function getStaticProps() {
+  const allPostsData = getSortedPostsData();
+  return {
+    props: {
+      allPostsData,
+    },
+  };
+}
+```
+
+`getStaticProops`의 `props` 객체에서 `allPostData`를 리턴함으로써, 블로그 포스트는 `Home` 컴포넌트에 prop으로 전달된다. 이제 블로그 포스트를 다음과 같이 접근할 수 있다:
+
+```jsx
+export default function Home ({ allPostsData }) { ... }
+```
+
+블로그 포스트를 디스플레이하기 위해서, `Home` 컴포넌트에 자기 소개를 내용으로 한 섹션 아래에 `<section>` 태그를 추가한다. props를 `()`에서 `({ allPostsData })`로 수정해야 한다.
+
+```jsx
+export default function Home({ allPostsData }) {
+  return (
+    <Layout home>
+      {/* Keep the existing code here */}
+
+      {/* Add this <section> tag below the existing <section> tag */}
+      <section className={`${utilStyles.headingMd} ${utilStyles.padding1px}`}>
+        <h2 className={utilStyles.headingLg}>Blog</h2>
+        <ul className={utilStyles.list}>
+          {allPostsData.map(({ id, date, title }) => (
+            <li className={utilStyles.listItem} key={id}>
+              {title}
+              <br />
+              {id}
+              <br />
+              {date}
+            </li>
+          ))}
+        </ul>
+      </section>
+    </Layout>
+  );
+}
+```
+
+[http://localhost:3000](http://localhost:3000)에 접근하면 블로그 데이터를 확인할 수 있다.
+
+축하한다! 우리는 성공적으로 파일 시스템으로부터 외부 데이터를 fetch했고, 그 데이터를 인덱스 페이지에 프리 렌더링했다.
+
+## getStaticProps Details
+
+`getStaticProps`에 대해 알아야할 정보들을 다룬다.
+
+### Fetch External API or Query Database
+
+`lib/posts.js`에서 파일 시스템에서 데이터를 fetch해오는 `getSortedPostsData`를 구현했다. 하지만 외부 API 엔드포인트와 같은 다른 소스에서 데이터를 fetch해올 수도 있는데, 그때는 다음과 같이 하면 된다:
+
+```js
+export async function getSortedPostsData() {
+  // Instead of the file system,
+  // fetch post data from an external API endpoint
+  const res = await fetch("..");
+  return res.json();
+}
+```
+
+> 참고: Next.js는 `fetch()`를 클라이언트와 서버 둘 다에서 폴리필하므로 임포트할 필요가 없다.
+
+데이터베이스에서 바로 쿼리문을 사용할 수도 있다:
+
+```js
+import someDatabaseSDK from 'someDatabaseSDK'
+
+const databaseClient = someDatabaseSDK.createClient(...)
+
+export async function getSortedPostsData() {
+  // Instead of the file system,
+  // fetch post data from a database
+  return databaseClient.query('SELECT posts...')
+}
+
+```
+
+이는 `getStaticProps`가 서버사이드에서만 실행 가능하기 때문이다. 클라이언트 사이드에서는 실행되지 않는다. 브라우저를 위한 자바스크립트 번들에는 포함되지 않는다. 이는 쿼리문을 브라우저에 전달하지 않고 직접 데이터베이스에 전달되도록 코드를 작성할 수 있다는 뜻이다.
+
+### Development vs. Production
+
+- 개발(`npm run dev` 혹은 `yarn dev`) 단계에선 `getStaticProps`는 각 요청마다 실행된다.
+- 배포(Production) 단계에선 `getStaticProps`는 빌드할 때 실행된다. 하지만, 이는 `getStaticProps`에서 리턴되는 `fallback` 키를 사용해 상향될 수 있다.
+
+빌드할 때 실행되기 때문에, 쿼리 파라미터 혹은 HTTP 헤더 같이 요청할 때만 사용할 수 있는 데이터는 사용할 수 없다.
+
+### Only Allowed in a Page
+
+`getStaticProps`는 페이지로부터만 익스포트될 수 있다. 페이지가 아닌 파일에서는 익스포트할 수 없다.
+
+이 제한의 이유는 리액트는 페이지가 렌더링되기 이전에 필요한 모든 데이터를 가져야하기 때문이다.
+
+### What If I Need to Fetch Data at Request Time?
+
+정적 생성은 유저의 요청 이전에 어떤 페이지를 프리 렌더링해야 한다면 좋은 방안이 아니다. 그 페이지는 아마 자주 업데이트되는 데이터를 보여주어야 할 것이고, 페이지의 내용은 각 요청 때마다 바뀌어야 할 것이다.
+
+이럴 때, 서버 사이드 렌더링을 사용하거나 프리 렌더링을 사용하지 않을 수 있다. 다음 레슨으로 넘어가기 전에 이러한 방식에 대해 다룰 것이다.

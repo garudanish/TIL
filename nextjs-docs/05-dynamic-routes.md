@@ -73,3 +73,70 @@ export async function getStaticProps({ params }) {
   // Fetch necessary data for the blog post using params.id
 }
 ```
+
+## Implement getStaticPaths
+
+먼저, 파일을 설치한다.
+
+- `pages/posts` 디렉토리 안에 `[id].js` 파일을 생성한다.
+- `pages/posts` 디렉토리 안의 `first-post.js` 파일을 **삭제한다.** 더 이상 이 파일은 사용하지 않는다.
+
+이후 에디터에서 `pages/posts/[id].js`를 열어 다음의 코드를 붙여넣기 한다. `...`은 이후에 채울 것이다.
+
+```jsx
+import Layout from "../../components/layout";
+
+export default function Post() {
+  return <Layout>...</Layout>;
+}
+```
+
+그리고 `lib/posts.js`를 열어 다음의 `getAllPostIds` 함수를 아랫 부분에 추가한다. 이 함수는 `posts` 디렉토리 안의 파일 이름(`.md`를 뗀다)들의 리스트를 리턴할 것이다.
+
+```jsx
+export function getAllPostIds() {
+  const fileNames = fs.readdirSync(postsDirectory);
+
+  // Returns an array that looks like this:
+  // [
+  //   {
+  //     params: {
+  //       id: 'ssg-ssr'
+  //     }
+  //   },
+  //   {
+  //     params: {
+  //       id: 'pre-rendering'
+  //     }
+  //   }
+  // ]
+  return fileNames.map((fileName) => {
+    return {
+      params: {
+        id: fileName.replace(/\.md$/, ""),
+      },
+    };
+  });
+}
+```
+
+**중요**: 리턴된 리스트는 문자열로 이루어진 배열이 아니다. 각주처럼 객체로 이루어진 배열**이어야만** 한다. 각 객체는 반드시 `params` 키를 가져야 하며, `id` 키를 가진 객체를 포함해야 한다(파일 이름에서 `[id]`를 사용할 것이기 때문이다). 그렇지 않으면 `getStaticPaths`는 실패할 것이다.
+
+마지막으로, `getAllPostIds` 함수를 임포트하고 `getStaticPaths` 안에서 사용한다. `pages/posts/[id].js`를 열어 다음의 코드를 익스포튿되는 `Post` 컴포넌트 위에 붙여넣기 한다.
+
+```jsx
+import { getAllPostIds } from "../../lib/posts";
+
+export async function getStaticPaths() {
+  const paths = getAllPostIds();
+  return {
+    paths,
+    fallback: false,
+  };
+}
+```
+
+- `paths`는 `getAllPostIds()`에 의해 리턴된 알려진 경로들의 배열을 포함한다. 이는 `pages/posts/[id].js`에 의해 정의된 파라미터를 포함하는 것이다.
+- 지금 단계에선 `fallback: false`는 무시하라. 이후에 다시 설명한다.
+
+거의 다 했지만, `getStaticProps`를 마저 구현해야 한다.

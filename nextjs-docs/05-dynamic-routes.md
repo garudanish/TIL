@@ -140,3 +140,87 @@ export async function getStaticPaths() {
 - 지금 단계에선 `fallback: false`는 무시하라. 이후에 다시 설명한다.
 
 거의 다 했지만, `getStaticProps`를 마저 구현해야 한다.
+
+## Implement getStaticProps
+
+주어진 `id`의 포스트를 렌더링 하기 위해 필요한 데이터를 fetch해야 한다.
+
+그렇게 하기 위해, `lib/posts.js`를 열어 밑에 다음의 `getPostData` 함수를 추가한다. 이 함수는 `id`에 기반판 포스트 데이터를 리턴한다.
+
+```jsx
+export function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContents);
+
+  // Combine the data with the id
+  return {
+    id,
+    ...matterResult.data,
+  };
+}
+```
+
+그리고 `pages/posts/[id].js`를 열어 다음의 라인을 찾는다:
+
+```jsx
+import { getAllPostIds } from "../../lib/posts";
+```
+
+그리고 다음의 내용으로 바꾼다:
+
+```jsx
+import { getAllPostIds, getPostData } from "../../lib/posts";
+
+export async function getStaticProps({ params }) {
+  const postData = getPostData(params.id);
+  return {
+    props: {
+      postData,
+    },
+  };
+}
+```
+
+포스트 페이지는 이제 `getStaticProps`에서 `getPostData` 함수를 사용해 포스트 데이터를 얻은 뒤 props로 리턴한다.
+
+이제, `postData`를 이용해 `Post` 컴포넌트를 업데이트 한다. `pages/posts/[id].js`에서 익스포트되는 `Post` 컴포넌트를 다음의 내용으로 수정한다.
+
+```jsx
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+      {postData.id}
+      <br />
+      {postData.date}
+    </Layout>
+  );
+}
+```
+
+다 됐다! 다음의 페이지들에 접속해보자:
+
+- [http://localhost:3000/posts/ssg-ssr](http://localhost:3000/posts/ssg-ssr)
+- [http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)
+
+좋다! 우리는 성공적으로 동적 라우트를 생성했다.
+
+### Something Wrong?
+
+에러가 발생했다면 다음의 파일들이 올바른 코드를 갖고 있는지 확인한다:
+
+- `pages/posts/[id].js`는 [이 파일](https://github.com/vercel/next-learn/blob/master/basics/dynamic-routes-step-1/pages/posts/%5Bid%5D.js)과 같아야 한다.
+- `lib/posts.js`는 [이 파일](https://github.com/vercel/next-learn/blob/master/basics/dynamic-routes-step-1/lib/posts.js)과 같아야 한다.
+- (여전히 작동하지 않는다면) 다른 코드들은 [이 파일들](https://github.com/vercel/next-learn/tree/master/basics/dynamic-routes-step-1)과 같아야 한다.
+
+만일 여전히 문제가 있다면, GitHub Discussioons의 커뮤니티에 물어볼 수 있다. 깃허브에 작성한 코드를 푸시하고 다른 사람이 볼 수 있도록 링크를 걸어두면 도움이 될 것이다.
+
+### Summary
+
+지금까지 한 것의 그래픽 요약은 다음과 같다:
+
+![how to statically generate pages with dynamic routes](https://nextjs.org/static/images/learn/dynamic-routes/how-to-dynamic-routes.png)

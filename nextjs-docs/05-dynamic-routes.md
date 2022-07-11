@@ -224,3 +224,80 @@ export default function Post({ postData }) {
 지금까지 한 것의 그래픽 요약은 다음과 같다:
 
 ![how to statically generate pages with dynamic routes](https://nextjs.org/static/images/learn/dynamic-routes/how-to-dynamic-routes.png)
+
+## Render Markdown
+
+마크다운 컨텐츠를 렌더링하기 위해 `remark` 라이브러리를 사용할 것이다. 먼저, 설치한다:
+
+```shell
+npm install remark remark-html
+```
+
+그리고, `lib/posts.js`를 열어 다음과 같이 파일 상단에 임포트를 추가한다:
+
+```jsx
+import { remark } from "remark";
+import html from "remark-html";
+```
+
+그리고 같은 파일에서 `remark`를 활용해 `getPostData()` 함수를 업데이트한다:
+
+```jsx
+export async function getPostData(id) {
+  const fullPath = path.join(postsDirectory, `${id}.md`);
+  const fileContents = fs.readFileSync(fullPath, "utf8");
+
+  // Use gray-matter to parse the post metadata section
+  const matterResult = matter(fileContents);
+
+  // Use remark to convert markdown into HTML string
+  const processedContent = await remark()
+    .use(html)
+    .process(matterResult.content);
+  const contentHtml = processedContent.toString();
+
+  // Combine the data with the id and contentHtml
+  return {
+    id,
+    contentHtml,
+    ...matterResult.data,
+  };
+}
+```
+
+> 중요: 우리는 `getPostData`에 `async` 라는 키워드를 넣었는데, 우리는 `remark`를 사용하기 위해서 `await`을 사용해야 하기 때문이다. `async`/`await`은 데이터를 비동기적으로 fetch할 수 있게 한다.
+
+이는 `pages/posts/[id].js`의 `getStaticProps`에서 `getPostData`를 호출할 때 `await`을 사용하도록 업데이트 해야 한다는 뜻이다:
+
+```jsx
+export async function getStaticProps({ params }) {
+  // Add the "await" keyword like this:
+  const postData = await getPostData(params.id);
+  // ...
+}
+```
+
+마지막으로, `dangerouslySetInnerHTML`을 사용해 `contentHTML`을 렌더링하도록 `pages/posts/[id].js`에서 `Page` 컴포넌트를 수정한다.
+
+```jsx
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {postData.title}
+      <br />
+      {postData.id}
+      <br />
+      {postData.date}
+      <br />
+      <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+    </Layout>
+  );
+}
+```
+
+이후 페이지들에 다시 접속해 보라:
+
+- [http://localhost:3000/posts/ssg-ssr](http://localhost:3000/posts/ssg-ssr)
+- [http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)
+
+블로그 컨텐츠를 확인할 수 있을 것이다.

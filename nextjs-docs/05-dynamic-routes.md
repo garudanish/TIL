@@ -301,3 +301,96 @@ export default function Post({ postData }) {
 - [http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)
 
 블로그 컨텐츠를 확인할 수 있을 것이다.
+
+## Polishing the Post Page
+
+### Adding title to the Post Page
+
+`pages/posts/[id].js`에서 포스트 데이터를 이용하는 `title` 태그를 추가하자. 파일 상위에 `next/head`를 임포트하고 `Post` 컴포넌트에 `title` 태그를 추가한다:
+
+```jsx
+// Add this import
+import Head from "next/head";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {/* Add this <Head> tag */}
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+
+      {/* Keep the existing code here */}
+    </Layout>
+  );
+}
+```
+
+### Formatting the Date
+
+날짜를 포매팅하기 위해, `date-fns` 라이브러리를 사용한다. 먼저, 설치한다:
+
+```shell
+npm install date-fns
+```
+
+다음으로, `components/date.js` 파일을 생성해 다음과 같은 내용에 `Date` 컴포넌트를 추가한다.
+
+```jsx
+import { parseISO, format } from "date-fns";
+
+export default function Date({ dateString }) {
+  const date = parseISO(dateString);
+  return <time dateTime={dateString}>{format(date, "LLLL d, yyyy")}</time>;
+}
+```
+
+이제, `pages/posts/[id].js`를 열어 파일의 제일 위에 `Date` 컴포넌트를 임포트하고 `{postData.date}`로 사용한다:
+
+```jsx
+// Add this import
+import Date from "../../components/date";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      {/* Keep the existing code here */}
+
+      {/* Replace {postData.date} with this */}
+      <Date dateString={postData.date} />
+
+      {/* Keep the existing code here */}
+    </Layout>
+  );
+}
+```
+
+[http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)에 접속하면 “January 1, 2020”라고 쓰인 날짜를 볼 수 있을 것이다.
+
+### Adding CSS
+
+마지막으로 이전에 사용했던 `styles/utils.module.css`를 이용해 CSS를 추가해보자. `pages/posts/[id].js`를 열어 CSS 파일을 임포트하고, `Post` 컴포넌트를 아래와 같은 내용으로 수정한다:
+
+```jsx
+// Add this import at the top of the file
+import utilStyles from "../../styles/utils.module.css";
+
+export default function Post({ postData }) {
+  return (
+    <Layout>
+      <Head>
+        <title>{postData.title}</title>
+      </Head>
+      <article>
+        <h1 className={utilStyles.headingXl}>{postData.title}</h1>
+        <div className={utilStyles.lightText}>
+          <Date dateString={postData.date} />
+        </div>
+        <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
+      </article>
+    </Layout>
+  );
+}
+```
+
+[http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)에 접속하면 더 나아진 페이지를 볼 수 있을 것이다.

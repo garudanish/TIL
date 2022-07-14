@@ -394,3 +394,30 @@ export default function Post({ postData }) {
 ```
 
 [http://localhost:3000/posts/pre-rendering](http://localhost:3000/posts/pre-rendering)에 접속하면 더 나아진 페이지를 볼 수 있을 것이다.
+
+## Polishing the Index Page
+
+다음으로, 인덱스 페이지(`pages/index.js`)를 업데이트해보자. `Link` 컴포넌트를 사용해 각 포스트 페이지들의 링크를 추가해야 한다.
+
+`pages/index.js`를 열어 `Link`와 `Date`를 파일의 상단에 임포트한다.
+
+```jsx
+import Link from "next/link";
+import Date from "../components/date";
+```
+
+그리고, 같은 파일의 `Home` 컴포넌트의 아래쪽에 `li` 태그를 다음과 같은 내용으로 바꾼다:
+
+```jsx
+<li className={utilStyles.listItem} key={id}>
+  <Link href={`/posts/${id}`}>
+    <a>{title}</a>
+  </Link>
+  <br />
+  <small className={utilStyles.lightText}>
+    <Date dateString={date} />
+  </small>
+</li>
+```
+
+[http://localhost:3000](http://localhost:3000)에 가보면 페이지에 각 글의 링크가 있다.

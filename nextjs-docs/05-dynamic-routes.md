@@ -421,3 +421,91 @@ import Date from "../components/date";
 ```
 
 [http://localhost:3000](http://localhost:3000)에 가보면 페이지에 각 글의 링크가 있다.
+
+## Dynamic Routes Details
+
+동적 라우트에 대해 알아야 할 필수적인 정보들을 다룬다.
+
+### Fetch External API or Query Database
+
+`getStaticProps` 처럼 `getStaticPaths`도 어느 데이터 소스로부터나 데이터를 fetch할 수 있다. 이 예시에선 `getStaticPaths`에서 사용한 `getAllPostIds`가 외부 API 엔드포인트에서 fetch해올 수 있을 것이다.
+
+```jsx
+export async function getAllPostIds() {
+  // Instead of the file system,
+  // fetch post data from an external API endpoint
+  const res = await fetch("..");
+  const posts = await res.json();
+  return posts.map((post) => {
+    return {
+      params: {
+        id: post.id,
+      },
+    };
+  });
+}
+```
+
+### Development vs. Production
+
+- 개발 단계에선(`npm run dev` 혹은 `yarn dev`), `getStaticPaths`는 모든 요청에서 실행된다.
+- 프로덕션 단계에선 `getStaticPaths`는 빌드할 때 실행된다.
+
+### Fallback
+
+`getStaticPaths`에서 `fallback: false`를 리턴했음을 상기하라. 이것이 의미하는 바는 무엇일까?
+
+`fallback`이 `false`이면, `getStaticPaths`에서 리턴되지 않는 경로는 404 페이지로 연결된다.
+
+`fallback`이 `true`이면 `getStaticProps`는 달라진다:
+
+- `getStaticPaths`에서 리턴되는 경로는 빌드할 때 렌더된다.
+- 빌드할 때 생성되지 않은 경로는 404 페이지로 연결되지 **않는다**. 대신, Next.js는 이러한 페이지의 첫 요청에서 페이지의 "대체(fallback)" 버전을 제공한다.
+- 뒤에선, Next.js는 요청받은 경로를 정적으로 생성한다. 동일한 경로로 후속 요청에는 빌드할 때 프리 렌더링된 다른 페이지들 처럼 생성된 페이지를 제공한다.
+
+`fallback`이 `blocking`이면, 새로운 경로는 `getStaticProps`로 서버사이드 렌더링되고, 이는 이후의 요청을 위해 캐싱되어 경로당 한 번만 일어난다.
+
+이것이 이 레슨의 스코프 바깥의 일로, `fallback: true`나 `fallback: "blocking"`에 대해서 더 알고 싶으면 `fallback` 문서를 참고하라.
+
+### Catch-all Routes
+
+동적 라우트는 브라켓 안에 점 세 개(`...`)를 추가함으로써 모든 경로를 캐치하도록 확장될 수 있다. 예를 들어:
+
+- `pages/posts/[...id].js`는 `/posts/a`와 `/posts/b`, `/posts/a/b/c` 등에 일치한다.
+
+이렇게 하면, 반드시 `getStaticPaths`에서 `id` 키의 값을 다음과 같이 배열로 리턴해야 한다.
+
+```jsx
+eturn [
+  {
+    params: {
+      // Statically Generates /posts/a/b/c
+      id: ['a', 'b', 'c'],
+    },
+  },
+  //...
+];
+```
+
+`getStaticProps`의 `params.id`는 배열이 된다:
+
+```jsx
+export async function getStaticProps({ params }) {
+  // params.id will be like ['a', 'b', 'c']
+}
+```
+
+### Router
+
+Next.js 라우터의 접근하고 싶다면 `next/router`에서 `useRouter` 훅을 임포트해서 할 수 있다.
+
+### 404 Pages
+
+커스텀 404 페이지를 만들기 위해 `pages/404.js`를 생성한다. 이 파일은 빌드할 때 정적으로 생성된다.
+
+```jsx
+// pages/404.js
+export default function Custom404() {
+  return <h1>404 - Page Not Found</h1>;
+}
+```

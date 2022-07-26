@@ -99,3 +99,31 @@ Vercel에 배포한 후에, 가능하다면 다음을 시도할 수 있다:
 - 반영: 풀 리퀘스트를 `main`에 머지함으로써 프로덕션에 반영한다.
 
 Next.js 앱을 개발할 때 이러한 워크플로우를 사용할 것을 추천한다.
+
+## Other Hosting Options
+
+Next.js는 Next.js를 지원한다면 어떤 호스팅 제공 업체로도 배포될 수 있다.
+
+지금까지의 과정을 밟았다면 `package.json`에 다음의 `build`와 `start` 스크립트가 있을 것이다:
+
+```json
+{
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "start": "next start"
+  }
+}
+```
+
+호스팅 제공업체에서, `build` 스크립트를 실행하면 `.next` 폴더에 프로덕션 애플리케이션이 빌드될 것이다.
+
+```shell
+npm run build
+```
+
+빌드가 된 이후에, `start` 스크립트는 하이브리드 페이지를 지원하고, 정적 생성 페이지, 서버사이드 렌더링 페이지, API 라우트를 제공하는 Node.js 서버를 시작한다.
+
+```shell
+npm run start
+```

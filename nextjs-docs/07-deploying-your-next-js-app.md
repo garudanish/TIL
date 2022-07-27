@@ -127,3 +127,23 @@ npm run build
 ```shell
 npm run start
 ```
+
+## Finally
+
+베이직 레슨을 끝낸 걸 축하한다! 추천하는 다음 단계는 다음과 같다:
+
+### Share Your Next.js App
+
+트위터에 만든 앱을 공유하는 것을 추천한다. 공유하면, 우리가 볼 수 있게 @vercel로 멘션해달라! 이 튜토리얼에 대한 피드백도 환영한다.
+
+### Use TypeScript with Next.js
+
+타입스크립트를 사용하는 걸 선호한다면, [Next.js에 타입스크립트를 사용하는 방법](https://nextjs.org/learn/excel/typescript)을 여기서 배울 수 있다.
+
+### What to Learn Next
+
+더 자세하게 알고 싶다면 [공식문서](https://nextjs.org/docs)를 살펴보라. 특히, 다음의 페이지들이 흥미로울 것이다:
+
+- [데이터 fetch](https://nextjs.org/docs/basic-features/data-fetching/overview): 데이터 fetch에 대해 자세히 알아보기
+- [환경 변수](https://nextjs.org/docs/basic-features/environment-variables): 환경 변수 빌트인 지원에 대해 알아보기
+- [AMP 지원](https://nextjs.org/docs/advanced-features/amp-support/introduction): Next.js에서는 쉽게 AMP 페이지를 만들 수 있다.

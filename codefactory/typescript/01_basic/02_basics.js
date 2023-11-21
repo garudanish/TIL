@@ -2,6 +2,7 @@
 /**
  * Types
  */
+Object.defineProperty(exports, "__esModule", { value: true });
 let helloText = "Hello World";
 // helloText = true; // string 타입이 아니라 저장 불가능
 /**

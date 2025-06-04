@@ -24,7 +24,7 @@ const some = (arr, callback) => {
   let k = 0;
 
   while (k < arr.length) {
-    if (arr[k]) {
+    if (k in arr) {
       if (Boolean(callback(arr[k]) === true)) {
         return true;
       }
@@ -40,7 +40,7 @@ const every = (arr, callback) => {
   let k = 0;
 
   while (k < arr.length) {
-    if (arr[k]) {
+    if (k in arr) {
       if (Boolean(arr[k]) === false) {
         return false;
       }
